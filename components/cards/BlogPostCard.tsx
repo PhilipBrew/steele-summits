@@ -1,0 +1,38 @@
+'use client';
+
+import Link from 'next/link';
+import { Badge, Card, ImagePlaceholder, Stack, Text } from '@/components/ui';
+import type { BlogPost } from '@/lib/mock-data/blog-posts';
+
+export interface BlogPostCardProps {
+  post: BlogPost;
+}
+
+const formatDate = (date: string) =>
+  new Date(date).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
+export const BlogPostCard = ({ post }: BlogPostCardProps) => (
+  <Link href={`/blog/${post.slug}`}>
+    <Card>
+      <Stack $gap="4">
+        <ImagePlaceholder $label={post.category} />
+        <Stack $gap="2">
+          <Badge $variant="accent">{post.category}</Badge>
+          <Text $variant="h4" as="h3">
+            {post.title}
+          </Text>
+          <Text $variant="bodySm" $color="muted">
+            {post.excerpt}
+          </Text>
+          <Text $variant="caption" $color="muted">
+            {formatDate(post.date)}
+          </Text>
+        </Stack>
+      </Stack>
+    </Card>
+  </Link>
+);
