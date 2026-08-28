@@ -2,6 +2,9 @@
   "name": "steelesummts",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -22,15 +25,20 @@
     ]
   },
   "dependencies": {
+    "@portabletext/react": "^7.0.1",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/vision": "^6.11.0",
     "@tanstack/react-query": "^5.101.4",
     "next": "16.2.12",
+    "next-sanity": "^13.3.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "sanity": "^6.11.0",
     "styled-components": "^6.4.4"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.101.4",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/styled-components": "^5.1.36",

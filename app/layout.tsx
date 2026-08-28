@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 import { Fraunces, Karla } from 'next/font/google';
 
-import { AppProviders } from '@/components/providers/AppProviders';
-import { Header, Footer } from '@/components/layout';
-
 const headingFont = Fraunces({
   variable: '--font-heading',
   subsets: ['latin'],
@@ -22,13 +19,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
   <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`}>
-    <body>
-      <AppProviders>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </AppProviders>
-    </body>
+    <body>{children}</body>
   </html>
 );
 
