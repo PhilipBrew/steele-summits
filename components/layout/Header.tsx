@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Button, Container, Stack, Text } from '@/components/ui';
-import { navLinks } from './navLinks';
+import { Button, Container, InstagramIcon, Stack, Text } from '@/components/ui';
+import type { NavLink } from '@/lib/sanity/types';
 
 const Bar = styled.header`
   position: sticky;
@@ -70,16 +70,40 @@ const MobileNavLink = styled(Link)`
   padding-block: ${({ theme }) => theme.space[2]};
 `;
 
-export const Header = () => {
+const InstagramLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: ${({ theme }) => theme.radii.pill};
+  color: ${({ theme }) => theme.colors.ink};
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.surfaceElevated};
+  }
+`;
+
+export interface HeaderProps {
+  siteName: string;
+  navLinks: NavLink[];
+  instagramUrl?: string;
+}
+
+export const Header = ({ siteName, navLinks, instagramUrl }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <Bar>
       <Container>
         <Row>
-          <Link href="/" aria-label="Steele Summits home">
+          <Link href="/" aria-label={`${siteName} home`}>
             <Text $variant="h4" as="span">
-              Steele Summits
+              {siteName}
             </Text>
           </Link>
 
@@ -94,6 +118,16 @@ export const Header = () => {
           </DesktopNav>
 
           <Stack $direction="row" $gap="3" $align="center">
+            {instagramUrl && (
+              <InstagramLink
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${siteName} on Instagram`}
+              >
+                <InstagramIcon />
+              </InstagramLink>
+            )}
             <Link href="/contact">
               <Button $variant="primary" $size="sm">
                 Get in touch

@@ -1,26 +1,43 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Badge, ImagePlaceholder, Stack, Text } from '@/components/ui';
+import { Badge, CardMedia, Stack, Text } from '@/components/ui';
 import { Section } from '@/components/layout';
-import { blogPosts, getBlogPostBySlug } from '@/lib/mock-data/blog-posts';
+import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
+import { ShareButtons } from '@/components/blog/ShareButtons';
+import {
+  getBlogPostSlugs,
+  getBlogPostBySlug,
+  getSiteSettings,
+} from '@/lib/sanity/fetchers';
+import { buildMetadata } from '@/lib/sanity/seo';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export const generateStaticParams = () =>
-  blogPosts.map(post => ({ slug: post.slug }));
+export const generateStaticParams = async () => {
+  const slugs = await getBlogPostSlugs();
+  return slugs.map(slug => ({ slug }));
+};
 
 export const generateMetadata = async ({
   params,
 }: BlogPostPageProps): Promise<Metadata> => {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const [post, siteSettings] = await Promise.all([
+    getBlogPostBySlug(slug),
+    getSiteSettings(),
+  ]);
 
-  return {
-    title: post ? `${post.title} — Steele Summits` : 'Blog — Steele Summits',
-    description: post?.excerpt,
-  };
+  return buildMetadata({
+    seo: post?.seo,
+    fallbackTitle: post?.title ?? 'Blog',
+    fallbackDescription: post?.excerpt,
+    path: `/blog/${slug}`,
+    siteSettings,
+  });
 };
 
 const formatDate = (date: string) =>
@@ -32,7 +49,7 @@ const formatDate = (date: string) =>
 
 const BlogPostPage = async ({ params }: BlogPostPageProps) => {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -47,13 +64,19 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
             {post.title}
           </Text>
           <Text $variant="caption" $color="muted">
-            {formatDate(post.date)}
+            {formatDate(post.publishedAt)}
           </Text>
         </Stack>
-        <ImagePlaceholder $ratio="16 / 9" $label={post.category} />
-        <Text $variant="bodyLg" $color="muted">
-          {post.body}
-        </Text>
+        <CardMedia
+          image={post.heroImage}
+          fallbackLabel={post.category}
+          $ratio="16 / 9"
+        />
+        <PortableTextRenderer value={post.body} />
+        <ShareButtons
+          url={new URL(`/blog/${slug}`, SITE_URL).toString()}
+          title={post.title}
+        />
       </Stack>
     </Section>
   );

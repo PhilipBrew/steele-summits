@@ -1,34 +1,46 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Badge, Button, ImagePlaceholder, Stack, Text } from '@/components/ui';
+import { Badge, Button, CardMedia, Stack, Text } from '@/components/ui';
 import { Section, TwoColumnGrid } from '@/components/layout';
-import { services, getServiceBySlug } from '@/lib/mock-data/services';
+import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
+import {
+  getServiceSlugs,
+  getServiceBySlug,
+  getSiteSettings,
+} from '@/lib/sanity/fetchers';
+import { buildMetadata } from '@/lib/sanity/seo';
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
 }
 
-export const generateStaticParams = () =>
-  services.map(service => ({ slug: service.slug }));
+export const generateStaticParams = async () => {
+  const slugs = await getServiceSlugs();
+  return slugs.map(slug => ({ slug }));
+};
 
 export const generateMetadata = async ({
   params,
 }: ServicePageProps): Promise<Metadata> => {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const [service, siteSettings] = await Promise.all([
+    getServiceBySlug(slug),
+    getSiteSettings(),
+  ]);
 
-  return {
-    title: service
-      ? `${service.name} — Steele Summits`
-      : 'Service — Steele Summits',
-    description: service?.summary,
-  };
+  return buildMetadata({
+    seo: service?.seo,
+    fallbackTitle: service?.name ?? 'Service',
+    fallbackDescription: service?.summary,
+    path: `/services/${slug}`,
+    siteSettings,
+  });
 };
 
 const ServicePage = async ({ params }: ServicePageProps) => {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = await getServiceBySlug(slug);
 
   if (!service) {
     notFound();
@@ -45,14 +57,16 @@ const ServicePage = async ({ params }: ServicePageProps) => {
           <Text $variant="bodyLg" $color="muted">
             {service.summary}
           </Text>
-          <Text $variant="body" $color="muted">
-            {service.description}
-          </Text>
+          <PortableTextRenderer value={service.body} />
           <Link href="/contact">
             <Button $variant="primary">Enquire about this</Button>
           </Link>
         </Stack>
-        <ImagePlaceholder $ratio="1 / 1" $label={service.name} />
+        <CardMedia
+          image={service.heroImage}
+          fallbackLabel={service.name}
+          $ratio="1 / 1"
+        />
       </TwoColumnGrid>
     </Section>
   );

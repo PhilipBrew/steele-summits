@@ -7,8 +7,10 @@ import {
   Stack,
   Text,
   LandscapeBanner,
+  SanityImage,
   type LandscapeScene,
 } from '@/components/ui';
+import type { SanityImageWithAlt } from '@/lib/sanity/types';
 
 export interface HeroProps {
   eyebrow?: string;
@@ -18,6 +20,7 @@ export interface HeroProps {
   align?: 'left' | 'center';
   $scene?: LandscapeScene;
   $size?: 'lg' | 'md';
+  heroImage?: SanityImageWithAlt | null;
 }
 
 const Wrapper = styled.section<{ $size: 'lg' | 'md' }>`
@@ -61,9 +64,20 @@ export const Hero = ({
   align = 'left',
   $scene = 'fells',
   $size = 'lg',
+  heroImage,
 }: HeroProps) => (
   <Wrapper $size={$size}>
-    <LandscapeBanner $scene={$scene} />
+    {heroImage?.asset ? (
+      <SanityImage
+        image={heroImage}
+        fill
+        priority
+        sizes="100vw"
+        style={{ objectFit: 'cover' }}
+      />
+    ) : (
+      <LandscapeBanner $scene={$scene} />
+    )}
     <Scrim />
     <Content>
       <Container>

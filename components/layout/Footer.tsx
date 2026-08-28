@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Container, Stack, Text } from '@/components/ui';
-import { navLinks } from './navLinks';
+import { Container, InstagramIcon, Stack, Text } from '@/components/ui';
+import type { NavLink } from '@/lib/sanity/types';
 
 const Wrapper = styled.footer`
   background: ${({ theme }) => theme.colors.surfaceElevated};
@@ -34,19 +34,44 @@ const BottomBar = styled.div`
 
 const currentYear = new Date().getFullYear();
 
-export const Footer = () => (
+const InstagramLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space[2]};
+  color: ${({ theme }) => theme.colors.ink};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+export interface FooterProps {
+  siteName: string;
+  footerTagline?: string;
+  navLinks: NavLink[];
+  contactEmail: string;
+  instagramUrl?: string;
+}
+
+export const Footer = ({
+  siteName,
+  footerTagline,
+  navLinks,
+  contactEmail,
+  instagramUrl,
+}: FooterProps) => (
   <Wrapper>
     <Container>
       <Grid>
         <Stack $gap="3" style={{ maxWidth: 360 }}>
           <Text $variant="h4" as="p">
-            Steele Summits
+            {siteName}
           </Text>
-          <Text $variant="bodySm" $color="muted">
-            Guided mountain walking and outdoor yoga across the Lake District
-            and Northumberland — routes and sessions built around you, not a
-            timetable.
-          </Text>
+          {footerTagline && (
+            <Text $variant="bodySm" $color="muted">
+              {footerTagline}
+            </Text>
+          )}
         </Stack>
 
         <Stack $gap="3">
@@ -75,15 +100,27 @@ export const Footer = () => (
               </Text>
             </Link>
             <Text $variant="bodySm" $color="muted">
-              hello@steelesummits.co.uk
+              {contactEmail}
             </Text>
+            {instagramUrl && (
+              <InstagramLink
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <InstagramIcon size={16} />
+                <Text $variant="bodySm" as="span">
+                  Instagram
+                </Text>
+              </InstagramLink>
+            )}
           </Stack>
         </Stack>
       </Grid>
 
       <BottomBar>
         <Text $variant="caption" $color="muted">
-          © {currentYear} Steele Summits. All rights reserved.
+          © {currentYear} {siteName}. All rights reserved.
         </Text>
       </BottomBar>
     </Container>

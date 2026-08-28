@@ -7,7 +7,7 @@ import { Stack, Text } from '@/components/ui';
 export interface SplitContentProps {
   eyebrow?: string;
   heading: string;
-  body: string;
+  body: ReactNode;
   actions?: ReactNode;
   media: ReactNode;
   $reverse?: boolean;
@@ -58,9 +58,13 @@ export const SplitContent = ({
       <Text $variant="h2" as="h2">
         {heading}
       </Text>
-      <Text $variant="bodyLg" $color="muted">
-        {body}
-      </Text>
+      {typeof body === 'string' ? (
+        <Text $variant="bodyLg" $color="muted">
+          {body}
+        </Text>
+      ) : (
+        body
+      )}
       {actions && (
         <Stack $direction="row" $gap="3" $wrap>
           {actions}

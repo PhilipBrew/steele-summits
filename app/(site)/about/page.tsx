@@ -1,54 +1,84 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Button, ImagePlaceholder } from '@/components/ui';
+import { Button, CardMedia } from '@/components/ui';
 import { CTASection, Hero, Section, SplitContent } from '@/components/layout';
+import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
+import { getAboutPage, getSiteSettings } from '@/lib/sanity/fetchers';
+import { buildMetadata } from '@/lib/sanity/seo';
 
-export const metadata: Metadata = {
-  title: 'About — Steele Summits',
-  description:
-    'Why Steele Summits exists, how routes and sessions are planned, and what makes it different.',
+export const generateMetadata = async (): Promise<Metadata> => {
+  const [aboutPage, siteSettings] = await Promise.all([
+    getAboutPage(),
+    getSiteSettings(),
+  ]);
+
+  return buildMetadata({
+    seo: aboutPage?.seo,
+    fallbackTitle: 'About',
+    fallbackDescription:
+      'Why Steele Summits exists, how routes and sessions are planned, and what makes it different.',
+    path: '/about',
+    siteSettings,
+  });
 };
 
-const AboutPage = () => (
-  <>
-    <Hero
-      eyebrow="About"
-      heading="Mountains and mats, taken at your own pace."
-      intro="Steele Summits started from a simple belief: that time on the hill and time on the mat both work best when the pace matches the person, not a fixed itinerary."
-      align="center"
-      $scene="valley"
-      $size="lg"
-    />
+const AboutPage = async () => {
+  const aboutPage = await getAboutPage();
 
-    <Section $background="elevated">
-      <SplitContent
-        eyebrow="Our approach"
-        heading="Qualified, and built around the group"
-        body="Every guided walk is led by a qualified Mountain Leader, with routes chosen the week of the walk based on conditions and group experience — not booked months in advance and run regardless of the weather. Yoga sessions follow the same principle: a practice that fits how the body feels that day, not a fixed sequence."
-        media={<ImagePlaceholder $label="Steele Summits" />}
+  return (
+    <>
+      <Hero
+        eyebrow={aboutPage?.heroEyebrow}
+        heading={
+          aboutPage?.heroHeading ??
+          'Mountains and mats, taken at your own pace.'
+        }
+        intro={aboutPage?.heroIntro}
+        heroImage={aboutPage?.heroImage}
+        align="center"
+        $scene="valley"
+        $size="lg"
       />
-    </Section>
 
-    <Section
-      $background="default"
-      eyebrow="Why it matters"
-      heading="Getting outdoors should feel achievable"
-      intro="Whether it's a first hillwalk or a fourth Wainwright season, the aim is the same: build confidence on the ground, one well-paced day at a time."
-      align="center"
-    />
+      <Section $background="elevated">
+        <SplitContent
+          eyebrow={aboutPage?.approachEyebrow}
+          heading={
+            aboutPage?.approachHeading ??
+            'Qualified, and built around the group'
+          }
+          body={<PortableTextRenderer value={aboutPage?.approachBody} />}
+          media={
+            <CardMedia
+              image={aboutPage?.approachImage}
+              fallbackLabel="Steele Summits"
+              $ratio="4 / 3"
+            />
+          }
+        />
+      </Section>
 
-    <CTASection
-      heading="Come and see for yourself"
-      body="Get in touch to talk through a route, a session, or a multi-day trip — no obligation, no hard sell."
-      actions={
-        <Link href="/contact">
-          <Button $variant="secondary" $size="lg">
-            Get in touch
-          </Button>
-        </Link>
-      }
-    />
-  </>
-);
+      <Section
+        $background="default"
+        eyebrow={aboutPage?.whyEyebrow}
+        heading={aboutPage?.whyHeading}
+        intro={aboutPage?.whyIntro}
+        align="center"
+      />
+
+      <CTASection
+        heading={aboutPage?.ctaHeading ?? 'Come and see for yourself'}
+        body={aboutPage?.ctaBody ?? ''}
+        actions={
+          <Link href="/contact">
+            <Button $variant="secondary" $size="lg">
+              Get in touch
+            </Button>
+          </Link>
+        }
+      />
+    </>
+  );
+};
 
 export default AboutPage;

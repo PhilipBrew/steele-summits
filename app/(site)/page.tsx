@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui';
 import {
@@ -8,113 +9,166 @@ import {
   SplitContent,
 } from '@/components/layout';
 import { BlogPostCard, ServiceCard, TestimonialCard } from '@/components/cards';
-import { services } from '@/lib/mock-data/services';
-import { blogPosts } from '@/lib/mock-data/blog-posts';
-import { testimonials } from '@/lib/mock-data/testimonials';
+import {
+  getHomePage,
+  getServices,
+  getBlogPosts,
+  getTestimonials,
+  getSiteSettings,
+} from '@/lib/sanity/fetchers';
+import { buildMetadata } from '@/lib/sanity/seo';
 
-const HomePage = () => (
-  <>
-    <Hero
-      eyebrow="Steele Summits"
-      heading="Find your pace, on the hill and on the mat."
-      intro="Guided mountain walking across the fells of the Lake District and the wild hills of Northumberland, paired with grounding yoga sessions designed to help you move, breathe, and recover — outdoors or in."
-      $scene="fells"
-      $size="lg"
-      actions={
-        <>
-          <Link href="/services">
-            <Button $variant="primary" $size="lg">
-              Explore services
-            </Button>
-          </Link>
-          <Link href="/blog">
-            <Button $variant="outline" $size="lg">
-              Read the blog
-            </Button>
-          </Link>
-        </>
-      }
-    />
+export const generateMetadata = async (): Promise<Metadata> => {
+  const [homePage, siteSettings] = await Promise.all([
+    getHomePage(),
+    getSiteSettings(),
+  ]);
 
-    <Section
-      $background="elevated"
-      eyebrow="What we offer"
-      heading="Two ways to feel stronger outdoors"
-      intro="Every route and every session is planned around the people taking part, not a fixed timetable."
-    >
-      <CardGrid>
-        {services.slice(0, 3).map(service => (
-          <ServiceCard key={service.slug} service={service} />
-        ))}
-      </CardGrid>
-      <Link href="/services">
-        <Button $variant="outline">View all services</Button>
-      </Link>
-    </Section>
+  return buildMetadata({
+    seo: homePage?.seo,
+    fallbackTitle: 'Steele Summits',
+    fallbackDescription: siteSettings?.footerTagline,
+    path: '/',
+    siteSettings,
+    suffix: '',
+  });
+};
 
-    <Section $background="default">
-      <SplitContent
-        eyebrow="Guiding"
-        heading="Walking with someone who knows the mountain"
-        body="A qualified Mountain Leader plans every route around the weather, the ground conditions, and the people on the day — so the walk always matches the group, not the other way around."
+const HomePage = async () => {
+  const [homePage, services, blogPosts, testimonials] = await Promise.all([
+    getHomePage(),
+    getServices(),
+    getBlogPosts(),
+    getTestimonials(),
+  ]);
+
+  const featuredServices = services
+    .filter(service => service.featured)
+    .slice(0, 3);
+  const featuredBlogPosts = blogPosts.filter(post => post.featured).slice(0, 3);
+  const guidingMedia = services[0];
+
+  return (
+    <>
+      <Hero
+        eyebrow={homePage?.heroEyebrow}
+        heading={
+          homePage?.heroHeading ?? 'Find your pace, on the hill and on the mat.'
+        }
+        intro={homePage?.heroIntro}
+        heroImage={homePage?.heroImage}
+        $scene="fells"
+        $size="lg"
         actions={
-          <Link href="/services">
-            <Button $variant="primary">See guided walks</Button>
+          <>
+            <Link href="/services">
+              <Button $variant="primary" $size="lg">
+                Explore services
+              </Button>
+            </Link>
+            <Link href="/blog">
+              <Button $variant="outline" $size="lg">
+                Read the blog
+              </Button>
+            </Link>
+          </>
+        }
+      />
+
+      <Section
+        $background="elevated"
+        eyebrow={homePage?.offerEyebrow}
+        heading={homePage?.offerHeading}
+        intro={homePage?.offerIntro}
+      >
+        <CardGrid>
+          {(featuredServices.length
+            ? featuredServices
+            : services.slice(0, 3)
+          ).map(service => (
+            <ServiceCard key={service.slug} service={service} />
+          ))}
+        </CardGrid>
+        <Link href="/services">
+          <Button $variant="outline">View all services</Button>
+        </Link>
+      </Section>
+
+      {guidingMedia && (
+        <Section $background="default">
+          <SplitContent
+            eyebrow={homePage?.guidingEyebrow}
+            heading={
+              homePage?.guidingHeading ??
+              'Walking with someone who knows the mountain'
+            }
+            body={homePage?.guidingBody ?? ''}
+            actions={
+              <Link href="/services">
+                <Button $variant="primary">See guided walks</Button>
+              </Link>
+            }
+            media={<ServiceCard service={guidingMedia} />}
+          />
+        </Section>
+      )}
+
+      <Section
+        $background="elevated"
+        eyebrow="Services"
+        heading="Guided walks and yoga sessions"
+      >
+        <CardGrid>
+          {services.map(service => (
+            <ServiceCard key={service.slug} service={service} />
+          ))}
+        </CardGrid>
+      </Section>
+
+      <Section
+        $background="default"
+        eyebrow="From the blog"
+        heading="Notes from the trail and the mat"
+      >
+        <CardGrid>
+          {(featuredBlogPosts.length
+            ? featuredBlogPosts
+            : blogPosts.slice(0, 3)
+          ).map(post => (
+            <BlogPostCard key={post.slug} post={post} />
+          ))}
+        </CardGrid>
+        <Link href="/blog">
+          <Button $variant="outline">Read the blog</Button>
+        </Link>
+      </Section>
+
+      <Section
+        $background="accent"
+        eyebrow={homePage?.testimonialsEyebrow}
+        heading={homePage?.testimonialsHeading ?? 'What people say'}
+        align="center"
+      >
+        <CardGrid>
+          {testimonials.map(testimonial => (
+            <TestimonialCard key={testimonial._id} testimonial={testimonial} />
+          ))}
+        </CardGrid>
+      </Section>
+
+      <CTASection
+        heading={homePage?.ctaHeading ?? 'Ready to get outdoors?'}
+        body={homePage?.ctaBody ?? ''}
+        actions={
+          <Link href="/contact">
+            <Button $variant="secondary" $size="lg">
+              Get in touch
+            </Button>
           </Link>
         }
-        media={<ServiceCard service={services[0]} />}
       />
-    </Section>
-
-    <Section
-      $background="elevated"
-      eyebrow="Services"
-      heading="Guided walks and yoga sessions"
-    >
-      <CardGrid>
-        {services.map(service => (
-          <ServiceCard key={service.slug} service={service} />
-        ))}
-      </CardGrid>
-    </Section>
-
-    <Section
-      $background="default"
-      eyebrow="From the blog"
-      heading="Notes from the trail and the mat"
-    >
-      <CardGrid>
-        {blogPosts.map(post => (
-          <BlogPostCard key={post.slug} post={post} />
-        ))}
-      </CardGrid>
-    </Section>
-
-    <Section
-      $background="accent"
-      eyebrow="Words from walkers"
-      heading="What people say"
-      align="center"
-    >
-      <CardGrid>
-        {testimonials.map(testimonial => (
-          <TestimonialCard key={testimonial.name} testimonial={testimonial} />
-        ))}
-      </CardGrid>
-    </Section>
-
-    <CTASection
-      heading="Ready to get outdoors?"
-      body="Book a guided walk or a yoga session and start moving at your own pace."
-      actions={
-        <Link href="/contact">
-          <Button $variant="secondary" $size="lg">
-            Get in touch
-          </Button>
-        </Link>
-      }
-    />
-  </>
-);
+    </>
+  );
+};
 
 export default HomePage;

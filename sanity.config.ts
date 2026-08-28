@@ -4,7 +4,7 @@ import { visionTool } from '@sanity/vision';
 
 import { projectId, dataset, apiVersion } from '@/lib/sanity/env';
 import { schemaTypes } from '@/sanity/schemaTypes';
-import { structure } from '@/sanity/structure';
+import { structure, SINGLETON_TYPES } from '@/sanity/structure';
 
 export default defineConfig({
   name: 'default',
@@ -17,4 +17,10 @@ export default defineConfig({
     structureTool({ structure }),
     visionTool({ defaultApiVersion: apiVersion }),
   ],
+  document: {
+    actions: (input, context) =>
+      SINGLETON_TYPES.has(context.schemaType)
+        ? input.filter(action => action.action !== 'duplicate')
+        : input,
+  },
 });

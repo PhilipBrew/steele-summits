@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, Stack, Text } from '@/components/ui';
-import type { Testimonial } from '@/lib/mock-data/testimonials';
+import type { Testimonial } from '@/lib/sanity/types';
 
 export interface TestimonialCardProps {
   testimonial: Testimonial;

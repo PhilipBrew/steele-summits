@@ -6,4 +6,3 @@ export * from './SplitContent';
 export * from './CTASection';
 export * from './CardGrid';
 export * from './TwoColumnGrid';
-export * from './navLinks';

@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Badge, Card, ImagePlaceholder, Stack, Text } from '@/components/ui';
-import type { Service } from '@/lib/mock-data/services';
+import { Badge, Card, CardMedia, Stack, Text } from '@/components/ui';
+import type { Service } from '@/lib/sanity/types';
 
 export interface ServiceCardProps {
   service: Service;
@@ -12,7 +12,7 @@ export const ServiceCard = ({ service }: ServiceCardProps) => (
   <Link href={`/services/${service.slug}`}>
     <Card>
       <Stack $gap="4">
-        <ImagePlaceholder $label={service.name} />
+        <CardMedia image={service.heroImage} fallbackLabel={service.name} />
         <Stack $gap="2">
           <Badge $variant="accent">{service.category}</Badge>
           <Text $variant="h4" as="h3">
