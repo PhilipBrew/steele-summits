@@ -1,12 +1,21 @@
 import type { Metadata } from 'next';
 import { Hero, Section } from '@/components/layout';
-import { getServices, getSiteSettings } from '@/lib/sanity/fetchers';
+import {
+  getServices,
+  getServicesPage,
+  getSiteSettings,
+} from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
 import { ServiceRows } from './ServiceRows';
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const siteSettings = await getSiteSettings();
+  const [servicesPage, siteSettings] = await Promise.all([
+    getServicesPage(),
+    getSiteSettings(),
+  ]);
+
   return buildMetadata({
+    seo: servicesPage?.seo,
     fallbackTitle: 'Services',
     fallbackDescription: 'Guided mountain walks and outdoor yoga sessions.',
     path: '/services',
@@ -15,16 +24,23 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const ServicesPage = async () => {
-  const services = await getServices();
+  const [services, servicesPage] = await Promise.all([
+    getServices(),
+    getServicesPage(),
+  ]);
   const standardServices = services.filter(service => !service.specialised);
   const specialisedServices = services.filter(service => service.specialised);
 
   return (
     <>
       <Hero
-        eyebrow="Services"
-        heading="Guided walks and yoga sessions"
-        intro="Every route and every session is planned around the people taking part — from a first Wainwright to a multi-day expedition, from a single class to a regular practice."
+        eyebrow={servicesPage?.heroEyebrow ?? 'Services'}
+        heading={servicesPage?.heroHeading ?? 'Guided walks and yoga sessions'}
+        intro={
+          servicesPage?.heroIntro ??
+          'Every route and every session is planned around the people taking part — from a first Wainwright to a multi-day expedition, from a single class to a regular practice.'
+        }
+        heroImage={servicesPage?.heroImage}
         $scene="summit"
         $size="md"
       />

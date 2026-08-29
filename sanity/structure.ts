@@ -5,6 +5,8 @@ import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
 export const SINGLETON_TYPES = new Set([
   'homePage',
   'aboutPage',
+  'servicesPage',
+  'blogPage',
   'contactPage',
   'siteSettings',
 ]);
@@ -29,6 +31,8 @@ export const structure: StructureResolver = (S, context) =>
     .items([
       singletonListItem(S, 'homePage', 'Home Page'),
       singletonListItem(S, 'aboutPage', 'About Page'),
+      singletonListItem(S, 'servicesPage', 'Services Page'),
+      singletonListItem(S, 'blogPage', 'Blog Page'),
       singletonListItem(S, 'contactPage', 'Contact Page'),
       singletonListItem(S, 'siteSettings', 'Site Settings'),
       S.divider(),

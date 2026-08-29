@@ -21,6 +21,8 @@ export interface Service {
   price?: number;
   priceUnit?: 'flat' | 'per_day';
   specialised?: boolean;
+  relatedBlogPosts?: BlogPost[];
+  relatedTestimonials?: Testimonial[];
   seo?: SanitySeo;
 }
 
@@ -77,6 +79,22 @@ export interface AboutPage {
   seo?: SanitySeo;
 }
 
+export interface ServicesPage {
+  heroEyebrow?: string;
+  heroHeading: string;
+  heroIntro?: string;
+  heroImage?: SanityImageWithAlt;
+  seo?: SanitySeo;
+}
+
+export interface BlogPage {
+  heroEyebrow?: string;
+  heroHeading: string;
+  heroIntro?: string;
+  heroImage?: SanityImageWithAlt;
+  seo?: SanitySeo;
+}
+
 export interface ContactPage {
   heroEyebrow?: string;
   heroHeading: string;
@@ -102,6 +120,10 @@ export interface SiteSettings {
   footerTagline?: string;
   contactEmail: string;
   qualifications?: SanityImageWithAlt[];
+  testimonialsEyebrow?: string;
+  testimonialsHeading?: string;
+  ctaHeading?: string;
+  ctaBody?: string;
   instagramUrl?: string;
   defaultSeo?: SanitySeo;
 }

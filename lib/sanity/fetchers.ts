@@ -6,6 +6,8 @@ import type {
   Testimonial,
   HomePage,
   AboutPage,
+  ServicesPage,
+  BlogPage,
   ContactPage,
   SiteSettings,
 } from '@/lib/sanity/types';
@@ -19,6 +21,8 @@ import {
   testimonialsQuery,
   homePageQuery,
   aboutPageQuery,
+  servicesPageQuery,
+  blogPageQuery,
   contactPageQuery,
   siteSettingsQuery,
 } from '@/lib/sanity/queries';
@@ -86,6 +90,20 @@ export const getAboutPage = () =>
     aboutPageQuery,
     {},
     { next: { tags: [TAGS.aboutPage], revalidate: REVALIDATE_SECONDS } },
+  );
+
+export const getServicesPage = () =>
+  client.fetch<ServicesPage | null>(
+    servicesPageQuery,
+    {},
+    { next: { tags: [TAGS.servicesPage], revalidate: REVALIDATE_SECONDS } },
+  );
+
+export const getBlogPage = () =>
+  client.fetch<BlogPage | null>(
+    blogPageQuery,
+    {},
+    { next: { tags: [TAGS.blogPage], revalidate: REVALIDATE_SECONDS } },
   );
 
 export const getContactPage = () =>

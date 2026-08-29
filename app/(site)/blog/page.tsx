@@ -1,12 +1,23 @@
 import type { Metadata } from 'next';
-import { CardGrid, Hero, Section } from '@/components/layout';
+import Link from 'next/link';
+import { Button } from '@/components/ui';
+import { CardGrid, CTASection, Hero, Section } from '@/components/layout';
 import { BlogPostCard } from '@/components/cards';
-import { getBlogPosts, getSiteSettings } from '@/lib/sanity/fetchers';
+import {
+  getBlogPosts,
+  getBlogPage,
+  getSiteSettings,
+} from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const siteSettings = await getSiteSettings();
+  const [blogPage, siteSettings] = await Promise.all([
+    getBlogPage(),
+    getSiteSettings(),
+  ]);
+
   return buildMetadata({
+    seo: blogPage?.seo,
     fallbackTitle: 'Blog',
     fallbackDescription: 'Notes on mountain walking, navigation, and yoga.',
     path: '/blog',
@@ -15,25 +26,48 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const BlogPage = async () => {
-  const blogPosts = await getBlogPosts();
+  const [blogPosts, blogPage, siteSettings] = await Promise.all([
+    getBlogPosts(),
+    getBlogPage(),
+    getSiteSettings(),
+  ]);
 
   return (
     <>
       <Hero
-        eyebrow="Blog"
-        heading="Notes from the trail and the mat"
-        intro="Walking skills, route notes, and the occasional word on why yoga and hillwalking make such a good pair."
+        eyebrow={blogPage?.heroEyebrow ?? 'Blog'}
+        heading={blogPage?.heroHeading ?? 'Notes from the trail and the mat'}
+        intro={
+          blogPage?.heroIntro ??
+          'Walking skills, route notes, and the occasional word on why yoga and hillwalking make such a good pair.'
+        }
+        heroImage={blogPage?.heroImage}
         $scene="coast"
         $size="md"
       />
 
-      <Section $background="elevated">
+      <Section $background="default">
         <CardGrid>
           {blogPosts.map(post => (
             <BlogPostCard key={post.slug} post={post} />
           ))}
         </CardGrid>
       </Section>
+
+      <CTASection
+        heading={siteSettings?.ctaHeading ?? 'Ready to get outdoors?'}
+        body={
+          siteSettings?.ctaBody ??
+          'Book a guided walk or a yoga session and start moving at your own pace.'
+        }
+        actions={
+          <Link href="/contact">
+            <Button $variant="secondary" $size="lg">
+              Get in touch
+            </Button>
+          </Link>
+        }
+      />
     </>
   );
 };

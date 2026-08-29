@@ -29,7 +29,19 @@ export const servicesQuery = groq`*[_type == "service"] | order(orderRank asc) {
 
 export const serviceSlugsQuery = groq`*[_type == "service" && defined(slug.current)][].slug.current`;
 
-export const serviceBySlugQuery = groq`*[_type == "service" && slug.current == $slug][0] { ${serviceFields} }`;
+const serviceRelatedContentFields = groq`
+  "relatedBlogPosts": relatedBlogPosts[]-> { ${blogPostFields} },
+  "relatedTestimonials": *[_type == "testimonial" && references(^._id)] | order(_createdAt asc) {
+    _id,
+    quote,
+    name,
+    context,
+    photo,
+    featured
+  }
+`;
+
+export const serviceBySlugQuery = groq`*[_type == "service" && slug.current == $slug][0] { ${serviceFields}, ${serviceRelatedContentFields} }`;
 
 export const blogPostsQuery = groq`*[_type == "blogPost"] | order(publishedAt desc) { ${blogPostFields} }`;
 
@@ -42,6 +54,10 @@ export const testimonialsQuery = groq`*[_type == "testimonial" && featured == tr
 export const homePageQuery = groq`*[_type == "homePage"][0]`;
 
 export const aboutPageQuery = groq`*[_type == "aboutPage"][0]`;
+
+export const servicesPageQuery = groq`*[_type == "servicesPage"][0]`;
+
+export const blogPageQuery = groq`*[_type == "blogPage"][0]`;
 
 export const contactPageQuery = groq`*[_type == "contactPage"][0]`;
 

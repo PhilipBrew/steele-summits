@@ -58,6 +58,31 @@ export const siteSettings = defineType({
         'Qualification badges/logos — shown in the footer and as a carousel on the About page. Drag to reorder.',
     }),
     defineField({
+      name: 'testimonialsEyebrow',
+      title: 'Testimonials section eyebrow',
+      type: 'string',
+      description:
+        'Used above "What people say" wherever testimonials appear outside the homepage (e.g. on a service page).',
+    }),
+    defineField({
+      name: 'testimonialsHeading',
+      title: 'Testimonials section heading',
+      type: 'string',
+    }),
+    defineField({
+      name: 'ctaHeading',
+      title: '"Get in touch" banner heading',
+      type: 'string',
+      description:
+        "Default closing call-to-action banner shown on pages that don't define their own (e.g. the Blog page). Home and About can still override this with their own heading/body.",
+    }),
+    defineField({
+      name: 'ctaBody',
+      title: '"Get in touch" banner body',
+      type: 'text',
+      rows: 2,
+    }),
+    defineField({
       name: 'instagramUrl',
       title: 'Instagram URL',
       type: 'url',

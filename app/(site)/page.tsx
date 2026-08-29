@@ -29,12 +29,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const HomePage = async () => {
-  const [homePage, services, blogPosts, testimonials] = await Promise.all([
-    getHomePage(),
-    getServices(),
-    getBlogPosts(),
-    getTestimonials(),
-  ]);
+  const [homePage, services, blogPosts, testimonials, siteSettings] =
+    await Promise.all([
+      getHomePage(),
+      getServices(),
+      getBlogPosts(),
+      getTestimonials(),
+      getSiteSettings(),
+    ]);
 
   const standardServices = services.filter(service => !service.specialised);
   const specialisedServices = services.filter(service => service.specialised);
@@ -131,8 +133,16 @@ const HomePage = async () => {
       </Section>
 
       <CTASection
-        heading={homePage?.ctaHeading ?? 'Ready to get outdoors?'}
-        body={homePage?.ctaBody ?? ''}
+        heading={
+          homePage?.ctaHeading ??
+          siteSettings?.ctaHeading ??
+          'Ready to get outdoors?'
+        }
+        body={
+          homePage?.ctaBody ??
+          siteSettings?.ctaBody ??
+          'Book a guided walk or a yoga session and start moving at your own pace.'
+        }
         actions={
           <Link href="/contact">
             <Button $variant="secondary" $size="lg">

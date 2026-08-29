@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { CardMedia, Stack, Text } from '@/components/ui';
+import { CardMedia, ShareButtons, Stack, Text } from '@/components/ui';
 import { Section } from '@/components/layout';
 import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
-import { ShareButtons } from '@/components/blog/ShareButtons';
 import {
   getBlogPostSlugs,
   getBlogPostBySlug,

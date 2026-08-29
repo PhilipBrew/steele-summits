@@ -35,6 +35,14 @@ export const testimonial = defineType({
       type: 'boolean',
       initialValue: false,
     }),
+    defineField({
+      name: 'relatedService',
+      title: 'About this service',
+      type: 'reference',
+      to: [{ type: 'service' }],
+      description:
+        "Optional — if set, this testimonial can also appear on that service's page.",
+    }),
   ],
   preview: {
     select: { title: 'name', subtitle: 'quote', media: 'photo' },

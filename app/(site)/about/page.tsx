@@ -80,8 +80,16 @@ const AboutPage = async () => {
       />
 
       <CTASection
-        heading={aboutPage?.ctaHeading ?? 'Come and see for yourself'}
-        body={aboutPage?.ctaBody ?? ''}
+        heading={
+          aboutPage?.ctaHeading ??
+          siteSettings?.ctaHeading ??
+          'Come and see for yourself'
+        }
+        body={
+          aboutPage?.ctaBody ??
+          siteSettings?.ctaBody ??
+          'Get in touch to talk through a route, a session, or a multi-day trip — no obligation, no hard sell.'
+        }
         actions={
           <Link href="/contact">
             <Button $variant="secondary" $size="lg">

@@ -67,6 +67,14 @@ export const service = defineType({
         'Specialised services appear in the "Specialised Services" section on both the homepage and the Services page.',
     }),
     defineField({
+      name: 'relatedBlogPosts',
+      title: 'Related blog posts',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'blogPost' }] }],
+      description:
+        'Optional — shown as a "From the blog" section on this service\'s page. Leave empty to hide.',
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',
