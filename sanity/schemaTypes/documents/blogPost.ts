@@ -19,13 +19,6 @@ export const blogPost = defineType({
       validation: Rule => Rule.required(),
     }),
     defineField({
-      name: 'category',
-      title: 'Category',
-      type: 'string',
-      options: { list: ['Walking Skills', 'Yoga', 'Getting Started'] },
-      validation: Rule => Rule.required(),
-    }),
-    defineField({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
@@ -65,6 +58,6 @@ export const blogPost = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', subtitle: 'category', media: 'heroImage' },
+    select: { title: 'title', media: 'heroImage' },
   },
 });

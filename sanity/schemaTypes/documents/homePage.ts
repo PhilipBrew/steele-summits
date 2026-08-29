@@ -45,22 +45,6 @@ export const homePage = defineType({
       rows: 2,
     }),
     defineField({
-      name: 'guidingEyebrow',
-      title: '"Guiding" eyebrow',
-      type: 'string',
-    }),
-    defineField({
-      name: 'guidingHeading',
-      title: '"Guiding" heading',
-      type: 'string',
-    }),
-    defineField({
-      name: 'guidingBody',
-      title: '"Guiding" body',
-      type: 'text',
-      rows: 4,
-    }),
-    defineField({
       name: 'testimonialsEyebrow',
       title: 'Testimonials eyebrow',
       type: 'string',

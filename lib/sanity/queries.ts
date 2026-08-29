@@ -4,11 +4,12 @@ const serviceFields = groq`
   _id,
   name,
   "slug": slug.current,
-  category,
   summary,
   body,
   heroImage,
-  featured,
+  price,
+  priceUnit,
+  specialised,
   seo
 `;
 
@@ -16,7 +17,6 @@ const blogPostFields = groq`
   _id,
   title,
   "slug": slug.current,
-  category,
   excerpt,
   body,
   heroImage,
@@ -25,7 +25,7 @@ const blogPostFields = groq`
   seo
 `;
 
-export const servicesQuery = groq`*[_type == "service"] | order(name asc) { ${serviceFields} }`;
+export const servicesQuery = groq`*[_type == "service"] | order(orderRank asc) { ${serviceFields} }`;
 
 export const serviceSlugsQuery = groq`*[_type == "service" && defined(slug.current)][].slug.current`;
 

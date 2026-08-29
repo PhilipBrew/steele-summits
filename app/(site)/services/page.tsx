@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { CardGrid, Hero, Section } from '@/components/layout';
-import { ServiceCard } from '@/components/cards';
+import { Hero, Section } from '@/components/layout';
 import { getServices, getSiteSettings } from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
+import { ServiceRows } from './ServiceRows';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const siteSettings = await getSiteSettings();
@@ -16,6 +16,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const ServicesPage = async () => {
   const services = await getServices();
+  const standardServices = services.filter(service => !service.specialised);
+  const specialisedServices = services.filter(service => service.specialised);
 
   return (
     <>
@@ -27,13 +29,21 @@ const ServicesPage = async () => {
         $size="md"
       />
 
-      <Section $background="elevated">
-        <CardGrid>
-          {services.map(service => (
-            <ServiceCard key={service.slug} service={service} />
-          ))}
-        </CardGrid>
-      </Section>
+      {standardServices.length > 0 && (
+        <Section $background="elevated" eyebrow="Services" heading="Services">
+          <ServiceRows services={standardServices} />
+        </Section>
+      )}
+
+      {specialisedServices.length > 0 && (
+        <Section
+          $background="default"
+          eyebrow="Specialised"
+          heading="Specialised services"
+        >
+          <ServiceRows services={specialisedServices} />
+        </Section>
+      )}
     </>
   );
 };

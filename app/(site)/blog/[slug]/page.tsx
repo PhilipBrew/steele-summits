@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Badge, CardMedia, Stack, Text } from '@/components/ui';
+import { CardMedia, Stack, Text } from '@/components/ui';
 import { Section } from '@/components/layout';
 import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
 import { ShareButtons } from '@/components/blog/ShareButtons';
@@ -59,7 +59,6 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
     <Section $background="default">
       <Stack $gap="6" style={{ maxWidth: 720, marginInline: 'auto' }}>
         <Stack $gap="3">
-          <Badge $variant="accent">{post.category}</Badge>
           <Text $variant="h1" as="h1">
             {post.title}
           </Text>
@@ -69,7 +68,7 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
         </Stack>
         <CardMedia
           image={post.heroImage}
-          fallbackLabel={post.category}
+          fallbackLabel={post.title}
           $ratio="16 / 9"
         />
         <PortableTextRenderer value={post.body} />

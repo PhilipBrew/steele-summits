@@ -1,4 +1,5 @@
 import type { StructureResolver } from 'sanity/structure';
+import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
 
 // Singleton document types — one fixed document each, no "create new"/duplicate.
 export const SINGLETON_TYPES = new Set([
@@ -7,6 +8,10 @@ export const SINGLETON_TYPES = new Set([
   'contactPage',
   'siteSettings',
 ]);
+
+// Document types with their own dedicated, drag-orderable list item below —
+// excluded from the generic catch-all list so they don't show up twice.
+const ORDERABLE_TYPES = new Set(['service']);
 
 const singletonListItem = (
   S: Parameters<StructureResolver>[0],
@@ -18,7 +23,7 @@ const singletonListItem = (
     .id(typeName)
     .child(S.document().schemaType(typeName).documentId(typeName));
 
-export const structure: StructureResolver = S =>
+export const structure: StructureResolver = (S, context) =>
   S.list()
     .title('Content')
     .items([
@@ -27,7 +32,16 @@ export const structure: StructureResolver = S =>
       singletonListItem(S, 'contactPage', 'Contact Page'),
       singletonListItem(S, 'siteSettings', 'Site Settings'),
       S.divider(),
+      orderableDocumentListDeskItem({
+        type: 'service',
+        title: 'Services',
+        S,
+        context,
+      }),
+      S.divider(),
       ...S.documentTypeListItems().filter(
-        item => !SINGLETON_TYPES.has(item.getId() ?? ''),
+        item =>
+          !SINGLETON_TYPES.has(item.getId() ?? '') &&
+          !ORDERABLE_TYPES.has(item.getId() ?? ''),
       ),
     ]);

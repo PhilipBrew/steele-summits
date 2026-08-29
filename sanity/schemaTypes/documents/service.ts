@@ -1,10 +1,12 @@
 import { defineType, defineField } from 'sanity';
+import { orderRankField } from '@sanity/orderable-document-list';
 
 export const service = defineType({
   name: 'service',
   title: 'Service',
   type: 'document',
   fields: [
+    orderRankField({ type: 'service', hidden: true }),
     defineField({
       name: 'name',
       title: 'Name',
@@ -16,13 +18,6 @@ export const service = defineType({
       title: 'Slug',
       type: 'slug',
       options: { source: 'name', maxLength: 96 },
-      validation: Rule => Rule.required(),
-    }),
-    defineField({
-      name: 'category',
-      title: 'Category',
-      type: 'string',
-      options: { list: ['Walking', 'Yoga'] },
       validation: Rule => Rule.required(),
     }),
     defineField({
@@ -44,12 +39,32 @@ export const service = defineType({
       type: 'imageWithAlt',
     }),
     defineField({
-      name: 'featured',
-      title: 'Featured on homepage',
+      name: 'price',
+      title: 'Price (£)',
+      type: 'number',
+      validation: Rule => Rule.required().positive(),
+    }),
+    defineField({
+      name: 'priceUnit',
+      title: 'Price type',
+      type: 'string',
+      options: {
+        layout: 'radio',
+        list: [
+          { title: 'Flat rate', value: 'flat' },
+          { title: 'Per day', value: 'per_day' },
+        ],
+      },
+      initialValue: 'flat',
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'specialised',
+      title: 'Specialised',
       type: 'boolean',
       initialValue: false,
       description:
-        'Featured services appear in the homepage "What we offer" section.',
+        'Specialised services appear in the "Specialised Services" section on both the homepage and the Services page.',
     }),
     defineField({
       name: 'seo',
@@ -58,6 +73,6 @@ export const service = defineType({
     }),
   ],
   preview: {
-    select: { title: 'name', subtitle: 'category', media: 'heroImage' },
+    select: { title: 'name', media: 'heroImage' },
   },
 });

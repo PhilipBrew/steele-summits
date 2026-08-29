@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Badge, Card, CardMedia, Stack, Text } from '@/components/ui';
+import { Card, CardMedia, Stack, Text } from '@/components/ui';
+import { formatPrice } from '@/lib/sanity/price';
 import type { Service } from '@/lib/sanity/types';
 
 export interface ServiceCardProps {
@@ -14,7 +15,15 @@ export const ServiceCard = ({ service }: ServiceCardProps) => (
       <Stack $gap="4">
         <CardMedia image={service.heroImage} fallbackLabel={service.name} />
         <Stack $gap="2">
-          <Badge $variant="accent">{service.category}</Badge>
+          {formatPrice(service) && (
+            <Text
+              $variant="bodySm"
+              $color="primary"
+              style={{ fontWeight: 600 }}
+            >
+              {formatPrice(service)}
+            </Text>
+          )}
           <Text $variant="h4" as="h3">
             {service.name}
           </Text>

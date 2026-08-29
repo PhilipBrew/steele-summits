@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Badge, Card, CardMedia, Stack, Text } from '@/components/ui';
+import { Card, CardMedia, Stack, Text } from '@/components/ui';
 import type { BlogPost } from '@/lib/sanity/types';
 
 export interface BlogPostCardProps {
@@ -19,9 +19,8 @@ export const BlogPostCard = ({ post }: BlogPostCardProps) => (
   <Link href={`/blog/${post.slug}`}>
     <Card>
       <Stack $gap="4">
-        <CardMedia image={post.heroImage} fallbackLabel={post.category} />
+        <CardMedia image={post.heroImage} fallbackLabel={post.title} />
         <Stack $gap="2">
-          <Badge $variant="accent">{post.category}</Badge>
           <Text $variant="h4" as="h3">
             {post.title}
           </Text>

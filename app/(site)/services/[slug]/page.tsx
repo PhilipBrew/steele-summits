@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Badge, Button, CardMedia, Stack, Text } from '@/components/ui';
+import { Button, CardMedia, Stack, Text } from '@/components/ui';
 import { Section, TwoColumnGrid } from '@/components/layout';
 import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
 import {
@@ -10,6 +10,7 @@ import {
   getSiteSettings,
 } from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
+import { formatPrice } from '@/lib/sanity/price';
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -50,7 +51,11 @@ const ServicePage = async ({ params }: ServicePageProps) => {
     <Section $background="default">
       <TwoColumnGrid>
         <Stack $gap="4">
-          <Badge $variant="accent">{service.category}</Badge>
+          {formatPrice(service) && (
+            <Text $variant="h4" as="span" $color="primary">
+              {formatPrice(service)}
+            </Text>
+          )}
           <Text $variant="h1" as="h1">
             {service.name}
           </Text>

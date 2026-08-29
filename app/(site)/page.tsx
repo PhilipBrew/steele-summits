@@ -1,13 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui';
-import {
-  CardGrid,
-  CTASection,
-  Hero,
-  Section,
-  SplitContent,
-} from '@/components/layout';
+import { CardGrid, CTASection, Hero, Section } from '@/components/layout';
 import { BlogPostCard, ServiceCard, TestimonialCard } from '@/components/cards';
 import {
   getHomePage,
@@ -42,11 +36,9 @@ const HomePage = async () => {
     getTestimonials(),
   ]);
 
-  const featuredServices = services
-    .filter(service => service.featured)
-    .slice(0, 3);
+  const standardServices = services.filter(service => !service.specialised);
+  const specialisedServices = services.filter(service => service.specialised);
   const featuredBlogPosts = blogPosts.filter(post => post.featured).slice(0, 3);
-  const guidingMedia = services[0];
 
   return (
     <>
@@ -67,7 +59,7 @@ const HomePage = async () => {
               </Button>
             </Link>
             <Link href="/blog">
-              <Button $variant="outline" $size="lg">
+              <Button $variant="secondary" $size="lg">
                 Read the blog
               </Button>
             </Link>
@@ -75,58 +67,40 @@ const HomePage = async () => {
         }
       />
 
-      <Section
-        $background="elevated"
-        eyebrow={homePage?.offerEyebrow}
-        heading={homePage?.offerHeading}
-        intro={homePage?.offerIntro}
-      >
-        <CardGrid>
-          {(featuredServices.length
-            ? featuredServices
-            : services.slice(0, 3)
-          ).map(service => (
-            <ServiceCard key={service.slug} service={service} />
-          ))}
-        </CardGrid>
-        <Link href="/services">
-          <Button $variant="outline">View all services</Button>
-        </Link>
-      </Section>
+      {standardServices.length > 0 && (
+        <Section
+          $background="elevated"
+          eyebrow={homePage?.offerEyebrow ?? 'Services'}
+          heading={homePage?.offerHeading ?? 'Guided walks and yoga sessions'}
+          intro={homePage?.offerIntro}
+        >
+          <CardGrid>
+            {standardServices.map(service => (
+              <ServiceCard key={service.slug} service={service} />
+            ))}
+          </CardGrid>
+          <Link href="/services">
+            <Button $variant="outline">View all services</Button>
+          </Link>
+        </Section>
+      )}
 
-      {guidingMedia && (
-        <Section $background="default">
-          <SplitContent
-            eyebrow={homePage?.guidingEyebrow}
-            heading={
-              homePage?.guidingHeading ??
-              'Walking with someone who knows the mountain'
-            }
-            body={homePage?.guidingBody ?? ''}
-            actions={
-              <Link href="/services">
-                <Button $variant="primary">See guided walks</Button>
-              </Link>
-            }
-            media={<ServiceCard service={guidingMedia} />}
-          />
+      {specialisedServices.length > 0 && (
+        <Section
+          $background="default"
+          eyebrow="Specialised"
+          heading="Specialised services"
+        >
+          <CardGrid>
+            {specialisedServices.map(service => (
+              <ServiceCard key={service.slug} service={service} />
+            ))}
+          </CardGrid>
         </Section>
       )}
 
       <Section
         $background="elevated"
-        eyebrow="Services"
-        heading="Guided walks and yoga sessions"
-      >
-        <CardGrid>
-          {services.map(service => (
-            <ServiceCard key={service.slug} service={service} />
-          ))}
-        </CardGrid>
-      </Section>
-
-      <Section
-        $background="default"
         eyebrow="From the blog"
         heading="Notes from the trail and the mat"
       >

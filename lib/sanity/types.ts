@@ -15,11 +15,12 @@ export interface Service {
   _id: string;
   name: string;
   slug: string;
-  category: string;
   summary: string;
   body?: PortableTextBlock[];
   heroImage?: SanityImageWithAlt;
-  featured?: boolean;
+  price?: number;
+  priceUnit?: 'flat' | 'per_day';
+  specialised?: boolean;
   seo?: SanitySeo;
 }
 
@@ -27,7 +28,6 @@ export interface BlogPost {
   _id: string;
   title: string;
   slug: string;
-  category: string;
   excerpt: string;
   body?: PortableTextBlock[];
   heroImage?: SanityImageWithAlt;
@@ -53,9 +53,6 @@ export interface HomePage {
   offerEyebrow?: string;
   offerHeading?: string;
   offerIntro?: string;
-  guidingEyebrow?: string;
-  guidingHeading?: string;
-  guidingBody?: string;
   testimonialsEyebrow?: string;
   testimonialsHeading?: string;
   ctaHeading?: string;
