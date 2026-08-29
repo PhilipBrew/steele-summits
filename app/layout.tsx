@@ -11,10 +11,19 @@ const bodyFont = Karla({
   subsets: ['latin'],
 });
 
+const isIndexable = process.env.NEXT_PUBLIC_SITE_INDEXABLE === 'true';
+
 export const metadata: Metadata = {
   title: 'Steele Summits',
   description:
     'Steele Summits — guided mountain walking and outdoor yoga across the Lake District and Northumberland.',
+  robots: isIndexable
+    ? undefined
+    : {
+        index: false,
+        follow: false,
+        googleBot: { index: false, follow: false },
+      },
 };
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (

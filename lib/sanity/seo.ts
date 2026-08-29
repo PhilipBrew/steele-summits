@@ -14,6 +14,7 @@ export interface BuildMetadataArgs {
 }
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+const isIndexable = process.env.NEXT_PUBLIC_SITE_INDEXABLE === 'true';
 
 export const buildMetadata = ({
   seo,
@@ -40,7 +41,18 @@ export const buildMetadata = ({
     title,
     description,
     alternates: { canonical },
-    robots: seo?.noIndex ? { index: false, follow: false } : undefined,
+    // A global pre-launch block (env-gated) always wins over a page's own SEO
+    // settings — no individual page can accidentally re-enable indexing while
+    // the whole site is meant to be hidden.
+    robots: !isIndexable
+      ? {
+          index: false,
+          follow: false,
+          googleBot: { index: false, follow: false },
+        }
+      : seo?.noIndex
+        ? { index: false, follow: false }
+        : undefined,
     openGraph: {
       title,
       description,
