@@ -101,6 +101,7 @@ export interface SiteSettings {
   navLinks?: NavLink[];
   footerTagline?: string;
   contactEmail: string;
+  qualifications?: SanityImageWithAlt[];
   instagramUrl?: string;
   defaultSeo?: SanitySeo;
 }

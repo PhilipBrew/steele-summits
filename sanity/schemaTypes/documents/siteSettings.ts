@@ -50,6 +50,14 @@ export const siteSettings = defineType({
       validation: Rule => Rule.required().email(),
     }),
     defineField({
+      name: 'qualifications',
+      title: 'Qualifications',
+      type: 'array',
+      of: [defineArrayMember({ type: 'imageWithAlt' })],
+      description:
+        'Qualification badges/logos — shown in the footer and as a carousel on the About page. Drag to reorder.',
+    }),
+    defineField({
       name: 'instagramUrl',
       title: 'Instagram URL',
       type: 'url',

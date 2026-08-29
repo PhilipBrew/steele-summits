@@ -26,6 +26,7 @@ const SiteLayout = async ({
         footerTagline={siteSettings?.footerTagline}
         navLinks={siteSettings?.navLinks ?? FALLBACK_NAV_LINKS}
         contactEmail={siteSettings?.contactEmail ?? 'hello@steelesummits.co.uk'}
+        qualifications={siteSettings?.qualifications}
         instagramUrl={siteSettings?.instagramUrl}
       />
     </AppProviders>

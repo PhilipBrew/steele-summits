@@ -2,8 +2,14 @@
 
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Container, InstagramIcon, Stack, Text } from '@/components/ui';
-import type { NavLink } from '@/lib/sanity/types';
+import {
+  Container,
+  InstagramIcon,
+  SanityImage,
+  Stack,
+  Text,
+} from '@/components/ui';
+import type { NavLink, SanityImageWithAlt } from '@/lib/sanity/types';
 
 const Wrapper = styled.footer`
   background: ${({ theme }) => theme.colors.surfaceElevated};
@@ -45,11 +51,27 @@ const InstagramLink = styled.a`
   }
 `;
 
+const Badges = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${({ theme }) => theme.space[4]};
+  margin-top: ${({ theme }) => theme.space[5]};
+`;
+
+const BadgeFrame = styled.div`
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+`;
+
 export interface FooterProps {
   siteName: string;
   footerTagline?: string;
   navLinks: NavLink[];
   contactEmail: string;
+  qualifications?: SanityImageWithAlt[];
   instagramUrl?: string;
 }
 
@@ -58,6 +80,7 @@ export const Footer = ({
   footerTagline,
   navLinks,
   contactEmail,
+  qualifications,
   instagramUrl,
 }: FooterProps) => (
   <Wrapper>
@@ -117,6 +140,23 @@ export const Footer = ({
           </Stack>
         </Stack>
       </Grid>
+
+      {qualifications && qualifications.some(q => q.asset) && (
+        <Badges>
+          {qualifications
+            .filter(qualification => qualification.asset)
+            .map(qualification => (
+              <BadgeFrame key={qualification.asset?._ref}>
+                <SanityImage
+                  image={qualification}
+                  fill
+                  sizes="48px"
+                  style={{ objectFit: 'contain' }}
+                />
+              </BadgeFrame>
+            ))}
+        </Badges>
+      )}
 
       <BottomBar>
         <Text $variant="caption" $color="muted">

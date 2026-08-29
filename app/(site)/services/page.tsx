@@ -30,17 +30,13 @@ const ServicesPage = async () => {
       />
 
       {standardServices.length > 0 && (
-        <Section $background="elevated" eyebrow="Services" heading="Services">
+        <Section $background="elevated">
           <ServiceRows services={standardServices} />
         </Section>
       )}
 
       {specialisedServices.length > 0 && (
-        <Section
-          $background="default"
-          eyebrow="Specialised"
-          heading="Specialised services"
-        >
+        <Section $background="default" heading="Specialised">
           <ServiceRows services={specialisedServices} />
         </Section>
       )}

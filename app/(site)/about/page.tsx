@@ -5,6 +5,7 @@ import { CTASection, Hero, Section, SplitContent } from '@/components/layout';
 import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
 import { getAboutPage, getSiteSettings } from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
+import { QualificationsCarousel } from './QualificationsCarousel';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const [aboutPage, siteSettings] = await Promise.all([
@@ -23,7 +24,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const AboutPage = async () => {
-  const aboutPage = await getAboutPage();
+  const [aboutPage, siteSettings] = await Promise.all([
+    getAboutPage(),
+    getSiteSettings(),
+  ]);
+  const qualifications = (siteSettings?.qualifications ?? []).filter(
+    qualification => qualification.asset,
+  );
 
   return (
     <>
@@ -58,8 +65,14 @@ const AboutPage = async () => {
         />
       </Section>
 
+      {qualifications.length > 0 && (
+        <Section $background="default" heading="Qualifications">
+          <QualificationsCarousel qualifications={qualifications} />
+        </Section>
+      )}
+
       <Section
-        $background="default"
+        $background="elevated"
         eyebrow={aboutPage?.whyEyebrow}
         heading={aboutPage?.whyHeading}
         intro={aboutPage?.whyIntro}
