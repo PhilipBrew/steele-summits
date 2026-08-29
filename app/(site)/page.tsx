@@ -78,7 +78,11 @@ const HomePage = async () => {
         >
           <CardGrid>
             {standardServices.map(service => (
-              <ServiceCard key={service.slug} service={service} />
+              <ServiceCard
+                key={service.slug}
+                service={service}
+                showPrice={false}
+              />
             ))}
           </CardGrid>
           <Link href="/services">
@@ -95,7 +99,11 @@ const HomePage = async () => {
         >
           <CardGrid>
             {specialisedServices.map(service => (
-              <ServiceCard key={service.slug} service={service} />
+              <ServiceCard
+                key={service.slug}
+                service={service}
+                showPrice={false}
+              />
             ))}
           </CardGrid>
         </Section>

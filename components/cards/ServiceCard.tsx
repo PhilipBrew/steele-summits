@@ -7,15 +7,19 @@ import type { Service } from '@/lib/sanity/types';
 
 export interface ServiceCardProps {
   service: Service;
+  showPrice?: boolean;
 }
 
-export const ServiceCard = ({ service }: ServiceCardProps) => (
+export const ServiceCard = ({
+  service,
+  showPrice = true,
+}: ServiceCardProps) => (
   <Link href={`/services/${service.slug}`}>
     <Card>
       <Stack $gap="4">
         <CardMedia image={service.heroImage} fallbackLabel={service.name} />
         <Stack $gap="2">
-          {formatPrice(service) && (
+          {showPrice && formatPrice(service) && (
             <Text
               $variant="bodySm"
               $color="primary"

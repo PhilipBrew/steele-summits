@@ -35,7 +35,7 @@ export const theme = {
     '2xl': '2rem',
     '3xl': '2.75rem',
     '4xl': '3.5rem',
-    '5xl': '4.5rem',
+    '5xl': '4rem',
   },
 
   fontWeights: {

@@ -35,6 +35,8 @@ const Wrapper = styled.section<{ $size: 'lg' | 'md' }>`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     min-height: ${({ $size }) => ($size === 'lg' ? '520px' : '380px')};
+    padding-top: ${({ theme }) => theme.space[6]};
+    padding-bottom: ${({ theme }) => theme.space[9]};
   }
 `;
 
@@ -54,6 +56,22 @@ const Content = styled.div`
   position: relative;
   z-index: 2;
   width: 100%;
+`;
+
+const HeadingGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space[5]};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    gap: ${({ theme }) => theme.space[2]};
+  }
+`;
+
+const Heading = styled(Text)`
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: ${({ theme }) => theme.fontSizes['5xl']};
+  }
 `;
 
 export const Hero = ({
@@ -90,14 +108,16 @@ export const Hero = ({
               : { maxWidth: 760 }
           }
         >
-          {eyebrow && (
-            <Text $variant="eyebrow" $color="white">
-              {eyebrow}
-            </Text>
-          )}
-          <Text $variant="display" as="h1" $color="white">
-            {heading}
-          </Text>
+          <HeadingGroup>
+            {eyebrow && (
+              <Text $variant="eyebrow" $color="white">
+                {eyebrow}
+              </Text>
+            )}
+            <Heading $variant="display" as="h1" $color="white">
+              {heading}
+            </Heading>
+          </HeadingGroup>
           {intro && (
             <Text $variant="bodyLg" $color="white">
               {intro}
