@@ -61,14 +61,14 @@ const ServicePage = async ({ params }: ServicePageProps) => {
       <Section $background="default">
         <TwoColumnGrid>
           <Stack $gap="4">
-            {formatPrice(service) && (
-              <Text $variant="h4" as="span" $color="primary">
-                {formatPrice(service)}
-              </Text>
-            )}
             <Text $variant="h1" as="h1">
               {service.name}
             </Text>
+            {formatPrice(service) && (
+              <Text $variant="h3" as="span" $color="primary">
+                {formatPrice(service)}
+              </Text>
+            )}
             <Text $variant="bodyLg" $color="muted">
               {service.summary}
             </Text>

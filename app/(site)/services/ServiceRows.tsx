@@ -4,7 +4,6 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Button, CardMedia, Stack, Text } from '@/components/ui';
 import { SplitContent } from '@/components/layout';
-import { formatPrice } from '@/lib/sanity/price';
 import type { Service } from '@/lib/sanity/types';
 
 const Row = styled.div`
@@ -29,16 +28,9 @@ export const ServiceRows = ({ services }: ServiceRowsProps) => (
           heading={service.name}
           $reverse={index % 2 === 1}
           body={
-            <Stack $gap="3">
-              {formatPrice(service) && (
-                <Text $variant="h3" as="p" $color="primary">
-                  {formatPrice(service)}
-                </Text>
-              )}
-              <Text $variant="bodyLg" $color="muted">
-                {service.summary}
-              </Text>
-            </Stack>
+            <Text $variant="bodyLg" $color="muted">
+              {service.summary}
+            </Text>
           }
           actions={
             <Link href={`/services/${service.slug}`}>
