@@ -14,7 +14,8 @@ export type TextVariant =
   | 'caption'
   | 'eyebrow';
 
-export type TextColor = 'ink' | 'muted' | 'primary' | 'accent' | 'white';
+export type TextColor =
+  'ink' | 'muted' | 'primary' | 'accent' | 'white' | 'danger';
 
 export interface TextProps {
   $variant?: TextVariant;
@@ -95,6 +96,9 @@ const colorStyles = {
   `,
   white: css`
     color: ${({ theme }) => theme.colors.white};
+  `,
+  danger: css`
+    color: ${({ theme }) => theme.colors.danger};
   `,
 };
 

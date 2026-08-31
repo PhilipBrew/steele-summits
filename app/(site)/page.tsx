@@ -85,9 +85,6 @@ const HomePage = async () => {
               />
             ))}
           </CardGrid>
-          <Link href="/services">
-            <Button $variant="outline">View all services</Button>
-          </Link>
         </Section>
       )}
 

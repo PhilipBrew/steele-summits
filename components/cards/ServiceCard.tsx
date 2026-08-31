@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import { Card, CardMedia, Stack, Text } from '@/components/ui';
+import { CardMedia, Stack, Text } from '@/components/ui';
 import { formatPrice } from '@/lib/sanity/price';
 import type { Service } from '@/lib/sanity/types';
+import { CardLink, ReadMore, StretchCard } from './CardLink';
 
 export interface ServiceCardProps {
   service: Service;
@@ -14,28 +14,23 @@ export const ServiceCard = ({
   service,
   showPrice = true,
 }: ServiceCardProps) => (
-  <Link href={`/services/${service.slug}`}>
-    <Card>
-      <Stack $gap="4">
-        <CardMedia image={service.heroImage} fallbackLabel={service.name} />
-        <Stack $gap="2">
-          {showPrice && formatPrice(service) && (
-            <Text
-              $variant="bodySm"
-              $color="primary"
-              style={{ fontWeight: 600 }}
-            >
-              {formatPrice(service)}
-            </Text>
-          )}
-          <Text $variant="h4" as="h3">
-            {service.name}
+  <CardLink href={`/services/${service.slug}`}>
+    <StretchCard>
+      <CardMedia image={service.heroImage} fallbackLabel={service.name} />
+      <Stack $gap="2">
+        {showPrice && formatPrice(service) && (
+          <Text $variant="bodySm" $color="primary" style={{ fontWeight: 600 }}>
+            {formatPrice(service)}
           </Text>
-          <Text $variant="bodySm" $color="muted">
-            {service.summary}
-          </Text>
-        </Stack>
+        )}
+        <Text $variant="h4" as="h3">
+          {service.name}
+        </Text>
+        <Text $variant="bodySm" $color="muted">
+          {service.summary}
+        </Text>
       </Stack>
-    </Card>
-  </Link>
+      <ReadMore>View details →</ReadMore>
+    </StretchCard>
+  </CardLink>
 );

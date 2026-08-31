@@ -8,6 +8,7 @@ export type SectionBackground = 'default' | 'elevated' | 'accent';
 
 export interface SectionProps {
   $background?: SectionBackground;
+  id?: string;
   eyebrow?: string;
   heading?: string;
   intro?: string;
@@ -29,11 +30,13 @@ const backgroundStyles = {
 
 const Wrapper = styled.section<{ $background: SectionBackground }>`
   padding-block: ${({ theme }) => theme.space[9]};
+  scroll-margin-top: 96px;
   ${({ $background }) => backgroundStyles[$background]}
 `;
 
 export const Section = ({
   $background = 'default',
+  id,
   eyebrow,
   heading,
   intro,
@@ -45,7 +48,7 @@ export const Section = ({
   const eyebrowColor = $background === 'accent' ? 'white' : 'primary';
 
   return (
-    <Wrapper $background={$background}>
+    <Wrapper id={id} $background={$background}>
       <Container>
         <Stack $gap="8">
           {(eyebrow || heading || intro) && (

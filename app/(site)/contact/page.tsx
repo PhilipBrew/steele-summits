@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import { Stack, Text } from '@/components/ui';
 import { Hero, Section, TwoColumnGrid } from '@/components/layout';
-import { getContactPage, getSiteSettings } from '@/lib/sanity/fetchers';
+import {
+  getContactPage,
+  getServices,
+  getSiteSettings,
+} from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
 import { ContactForm } from './ContactForm';
 
@@ -22,7 +26,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 const ContactPage = async () => {
-  const contactPage = await getContactPage();
+  const [contactPage, services] = await Promise.all([
+    getContactPage(),
+    getServices(),
+  ]);
 
   return (
     <>
@@ -37,9 +44,9 @@ const ContactPage = async () => {
         $size="md"
       />
 
-      <Section $background="elevated">
+      <Section $background="default">
         <TwoColumnGrid>
-          <ContactForm />
+          <ContactForm services={services} />
           <Stack $gap="4">
             <Stack $gap="1">
               <Text $variant="h4" as="h2">
@@ -72,7 +79,7 @@ const ContactPage = async () => {
                 {contactPage?.emailHeading ?? 'Email'}
               </Text>
               <Text $variant="bodySm" $color="muted">
-                {contactPage?.contactEmail ?? 'hello@steelesummits.co.uk'}
+                {contactPage?.contactEmail ?? 'hello@steelesummit.co.uk'}
               </Text>
             </Stack>
           </Stack>

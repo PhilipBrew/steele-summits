@@ -1,10 +1,16 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Button, CardMedia, ShareButtons, Stack, Text } from '@/components/ui';
+import {
+  Breadcrumbs,
+  CardMedia,
+  ShareButtons,
+  Stack,
+  Text,
+} from '@/components/ui';
 import { CardGrid, Section, TwoColumnGrid } from '@/components/layout';
 import { BlogPostCard, TestimonialCard } from '@/components/cards';
 import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
+import { ContactForm } from '@/app/(site)/contact/ContactForm';
 import {
   getServiceSlugs,
   getServiceBySlug,
@@ -59,34 +65,47 @@ const ServicePage = async ({ params }: ServicePageProps) => {
   return (
     <>
       <Section $background="default">
-        <TwoColumnGrid>
-          <Stack $gap="4">
-            <Text $variant="h1" as="h1">
-              {service.name}
-            </Text>
-            {formatPrice(service) && (
-              <Text $variant="h3" as="span" $color="primary">
-                {formatPrice(service)}
-              </Text>
-            )}
-            <Text $variant="bodyLg" $color="muted">
-              {service.summary}
-            </Text>
-            <PortableTextRenderer value={service.body} />
-            <Link href="/contact">
-              <Button $variant="primary">Enquire about this</Button>
-            </Link>
-            <ShareButtons
-              url={new URL(`/services/${slug}`, SITE_URL).toString()}
-              title={service.name}
-            />
-          </Stack>
-          <CardMedia
-            image={service.heroImage}
-            fallbackLabel={service.name}
-            $ratio="1 / 1"
+        <Stack $gap="6">
+          <Breadcrumbs
+            items={[
+              { label: 'Services', href: '/services' },
+              { label: service.name },
+            ]}
           />
-        </TwoColumnGrid>
+          <TwoColumnGrid>
+            <Stack $gap="4">
+              <Text $variant="h1" as="h1">
+                {service.name}
+              </Text>
+              {formatPrice(service) && (
+                <Text $variant="h3" as="span" $color="primary">
+                  {formatPrice(service)}
+                </Text>
+              )}
+              <Text $variant="bodyLg" $color="muted">
+                {service.summary}
+              </Text>
+              <PortableTextRenderer value={service.body} />
+              <ShareButtons
+                url={new URL(`/services/${slug}`, SITE_URL).toString()}
+                title={service.name}
+              />
+            </Stack>
+            <CardMedia
+              image={service.heroImage}
+              fallbackLabel={service.name}
+              $ratio="1 / 1"
+            />
+          </TwoColumnGrid>
+        </Stack>
+      </Section>
+
+      <Section $background="accent" heading="Enquire about this" align="center">
+        <Stack $align="center">
+          <div style={{ width: '100%', maxWidth: 560 }}>
+            <ContactForm fixedService={service.name} />
+          </div>
+        </Stack>
       </Section>
 
       {relatedTestimonials.length > 0 && (

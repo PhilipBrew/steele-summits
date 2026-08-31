@@ -1,6 +1,7 @@
 export * from './Container';
 export * from './Stack';
 export * from './Text';
+export * from './Breadcrumbs';
 export * from './Button';
 export * from './Card';
 export * from './Badge';
@@ -16,3 +17,4 @@ export * from './form/Label';
 export * from './form/Input';
 export * from './form/Textarea';
 export * from './form/Checkbox';
+export * from './form/Select';

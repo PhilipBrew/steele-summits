@@ -52,7 +52,7 @@ const ServicesPage = async () => {
       )}
 
       {specialisedServices.length > 0 && (
-        <Section $background="default" heading="Specialised">
+        <Section id="specialised" $background="default" heading="Specialised">
           <ServiceRows services={specialisedServices} />
         </Section>
       )}
