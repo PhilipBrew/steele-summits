@@ -14,9 +14,9 @@ const bodyFont = Karla({
 const isIndexable = process.env.NEXT_PUBLIC_SITE_INDEXABLE === 'true';
 
 export const metadata: Metadata = {
-  title: 'Steele Summits',
+  title: 'Steele Summit',
   description:
-    'Steele Summits — guided mountain walking and outdoor yoga across the Lake District and Northumberland.',
+    'Steele Summit — guided mountain walking and outdoor yoga across the Lake District and Northumberland.',
   robots: isIndexable
     ? undefined
     : {

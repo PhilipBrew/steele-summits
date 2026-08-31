@@ -17,7 +17,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     seo: aboutPage?.seo,
     fallbackTitle: 'About',
     fallbackDescription:
-      'Why Steele Summits exists, how routes and sessions are planned, and what makes it different.',
+      'Why Steele Summit exists, how routes and sessions are planned, and what makes it different.',
     path: '/about',
     siteSettings,
   });
@@ -58,7 +58,7 @@ const AboutPage = async () => {
           media={
             <CardMedia
               image={aboutPage?.approachImage}
-              fallbackLabel="Steele Summits"
+              fallbackLabel="Steele Summit"
               $ratio="4 / 3"
             />
           }

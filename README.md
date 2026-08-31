@@ -1,6 +1,6 @@
-# Steele Summits
+# Steele Summit
 
-Marketing and blog website for Steele Summits, a UK Mountain Leader offering guided mountain walking and adventures alongside outdoor yoga sessions — homepage, blog, services, about, and contact. All content is editable via an embedded Sanity Studio.
+Marketing and blog website for Steele Summit, a UK Mountain Leader offering guided mountain walking and adventures alongside outdoor yoga sessions — homepage, blog, services, about, and contact. All content is editable via an embedded Sanity Studio.
 
 ## Stack
 

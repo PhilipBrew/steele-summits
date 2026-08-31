@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {
   Container,
   InstagramIcon,
+  Logo,
   SanityImage,
   Stack,
   Text,
@@ -87,9 +88,7 @@ export const Footer = ({
     <Container>
       <Grid>
         <Stack $gap="3" style={{ maxWidth: 360 }}>
-          <Text $variant="h4" as="p">
-            {siteName}
-          </Text>
+          <Logo alt={siteName} height={80} />
           {footerTagline && (
             <Text $variant="bodySm" $color="muted">
               {footerTagline}

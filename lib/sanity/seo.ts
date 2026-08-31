@@ -22,7 +22,7 @@ export const buildMetadata = ({
   fallbackDescription,
   path,
   siteSettings,
-  suffix = ' — Steele Summits',
+  suffix = ' — Steele Summit',
 }: BuildMetadataArgs): Metadata => {
   const title = `${seo?.metaTitle || fallbackTitle}${suffix}`;
   const description =

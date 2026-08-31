@@ -9,6 +9,7 @@ export * from './LandscapeBanner';
 export * from './SanityImage';
 export * from './CardMedia';
 export * from './InstagramIcon';
+export * from './Logo';
 export * from './ShareIcons';
 export * from './ShareButtons';
 export * from './form/Label';

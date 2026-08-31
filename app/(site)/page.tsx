@@ -20,7 +20,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
   return buildMetadata({
     seo: homePage?.seo,
-    fallbackTitle: 'Steele Summits',
+    fallbackTitle: 'Steele Summit',
     fallbackDescription: siteSettings?.footerTagline,
     path: '/',
     siteSettings,

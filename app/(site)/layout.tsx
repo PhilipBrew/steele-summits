@@ -16,13 +16,13 @@ const SiteLayout = async ({
   return (
     <AppProviders>
       <Header
-        siteName={siteSettings?.siteName ?? 'Steele Summits'}
+        siteName={siteSettings?.siteName ?? 'Steele Summit'}
         navLinks={siteSettings?.navLinks ?? FALLBACK_NAV_LINKS}
         instagramUrl={siteSettings?.instagramUrl}
       />
       <main>{children}</main>
       <Footer
-        siteName={siteSettings?.siteName ?? 'Steele Summits'}
+        siteName={siteSettings?.siteName ?? 'Steele Summit'}
         footerTagline={siteSettings?.footerTagline}
         navLinks={siteSettings?.navLinks ?? FALLBACK_NAV_LINKS}
         contactEmail={siteSettings?.contactEmail ?? 'hello@steelesummits.co.uk'}

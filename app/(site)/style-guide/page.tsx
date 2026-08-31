@@ -21,7 +21,7 @@ import {
 } from '@/lib/sanity/fetchers';
 
 export const metadata: Metadata = {
-  title: 'Style Guide — Steele Summits',
+  title: 'Style Guide — Steele Summit',
 };
 
 const colorEntries = Object.entries(theme.colors);
@@ -82,7 +82,7 @@ const StyleGuidePage = async () => {
           </Text>
           <Stack $gap="4">
             <Text $variant="display" as="p">
-              Display — Steele Summits
+              Display — Steele Summit
             </Text>
             <Text $variant="h1" as="p">
               Heading 1 — Guided Mountain Walks

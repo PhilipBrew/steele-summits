@@ -5,9 +5,9 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# Steele Summits — Website — Project Conventions
+# Steele Summit — Website — Project Conventions
 
-Next.js 16 (App Router) + TypeScript marketing site for Steele Summits, a UK Mountain Leader offering guided mountain walking and outdoor yoga. Content is fully CMS-driven via an embedded Sanity Studio. Package manager: **npm**. Node **22.12+** required (see `.nvmrc`) — the Sanity toolchain's dependencies (`groq-js`, etc.) require it. Deployed on Vercel. Personal project — no CI/test suite yet.
+Next.js 16 (App Router) + TypeScript marketing site for Steele Summit, a UK Mountain Leader offering guided mountain walking and outdoor yoga. Content is fully CMS-driven via an embedded Sanity Studio. Package manager: **npm**. Node **22.12+** required (see `.nvmrc`) — the Sanity toolchain's dependencies (`groq-js`, etc.) require it. Deployed on Vercel. Personal project — no CI/test suite yet.
 
 ## Folder Structure
 

@@ -3,7 +3,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Button, Container, InstagramIcon, Stack, Text } from '@/components/ui';
+import {
+  Button,
+  Container,
+  InstagramIcon,
+  Logo,
+  Stack,
+  Text,
+} from '@/components/ui';
 import type { NavLink } from '@/lib/sanity/types';
 
 const Bar = styled.header`
@@ -102,9 +109,7 @@ export const Header = ({ siteName, navLinks, instagramUrl }: HeaderProps) => {
       <Container>
         <Row>
           <Link href="/" aria-label={`${siteName} home`}>
-            <Text $variant="h4" as="span">
-              {siteName}
-            </Text>
+            <Logo alt={siteName} height={48} variant="horizontal" />
           </Link>
 
           <DesktopNav aria-label="Primary">

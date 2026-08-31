@@ -8,7 +8,7 @@ import { structure, SINGLETON_TYPES } from '@/sanity/structure';
 
 export default defineConfig({
   name: 'default',
-  title: 'Steele Summits',
+  title: 'Steele Summit',
   basePath: '/studio',
   projectId,
   dataset,
