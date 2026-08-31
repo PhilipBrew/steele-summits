@@ -9,6 +9,8 @@ import type {
   ServicesPage,
   BlogPage,
   ContactPage,
+  PrivacyPolicyPage,
+  TermsPage,
   SiteSettings,
 } from '@/lib/sanity/types';
 import {
@@ -24,6 +26,8 @@ import {
   servicesPageQuery,
   blogPageQuery,
   contactPageQuery,
+  privacyPolicyPageQuery,
+  termsPageQuery,
   siteSettingsQuery,
 } from '@/lib/sanity/queries';
 
@@ -111,6 +115,22 @@ export const getContactPage = () =>
     contactPageQuery,
     {},
     { next: { tags: [TAGS.contactPage], revalidate: REVALIDATE_SECONDS } },
+  );
+
+export const getPrivacyPolicyPage = () =>
+  client.fetch<PrivacyPolicyPage | null>(
+    privacyPolicyPageQuery,
+    {},
+    {
+      next: { tags: [TAGS.privacyPolicyPage], revalidate: REVALIDATE_SECONDS },
+    },
+  );
+
+export const getTermsPage = () =>
+  client.fetch<TermsPage | null>(
+    termsPageQuery,
+    {},
+    { next: { tags: [TAGS.termsPage], revalidate: REVALIDATE_SECONDS } },
   );
 
 export const getSiteSettings = () =>

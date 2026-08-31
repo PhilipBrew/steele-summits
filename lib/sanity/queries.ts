@@ -61,4 +61,8 @@ export const blogPageQuery = groq`*[_type == "blogPage"][0]`;
 
 export const contactPageQuery = groq`*[_type == "contactPage"][0]`;
 
+export const privacyPolicyPageQuery = groq`*[_type == "privacyPolicyPage"][0]`;
+
+export const termsPageQuery = groq`*[_type == "termsPage"][0]`;
+
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0]`;

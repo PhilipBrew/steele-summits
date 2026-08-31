@@ -39,6 +39,12 @@ const BottomBar = styled.div`
   justify-content: space-between;
 `;
 
+const LegalLinks = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.space[4]};
+`;
+
 const currentYear = new Date().getFullYear();
 
 const InstagramLink = styled.a`
@@ -161,6 +167,18 @@ export const Footer = ({
         <Text $variant="caption" $color="muted">
           © {currentYear} {siteName}. All rights reserved.
         </Text>
+        <LegalLinks>
+          <Link href="/privacy-policy">
+            <Text $variant="caption" $color="muted" as="span">
+              Privacy Policy
+            </Text>
+          </Link>
+          <Link href="/terms-conditions">
+            <Text $variant="caption" $color="muted" as="span">
+              Terms &amp; Conditions
+            </Text>
+          </Link>
+        </LegalLinks>
       </BottomBar>
     </Container>
   </Wrapper>

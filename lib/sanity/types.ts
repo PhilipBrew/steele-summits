@@ -109,6 +109,20 @@ export interface ContactPage {
   seo?: SanitySeo;
 }
 
+export interface PrivacyPolicyPage {
+  title: string;
+  lastUpdated?: string;
+  body: PortableTextBlock[];
+  seo?: SanitySeo;
+}
+
+export interface TermsPage {
+  title: string;
+  lastUpdated?: string;
+  body: PortableTextBlock[];
+  seo?: SanitySeo;
+}
+
 export interface NavLink {
   label: string;
   href: string;

@@ -11,6 +11,8 @@ import { aboutPage } from './documents/aboutPage';
 import { servicesPage } from './documents/servicesPage';
 import { blogPage } from './documents/blogPage';
 import { contactPage } from './documents/contactPage';
+import { privacyPolicyPage } from './documents/privacyPolicyPage';
+import { termsPage } from './documents/termsPage';
 import { siteSettings } from './documents/siteSettings';
 
 export const schemaTypes: SchemaTypeDefinition[] = [
@@ -28,5 +30,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   servicesPage,
   blogPage,
   contactPage,
+  privacyPolicyPage,
+  termsPage,
   siteSettings,
 ];

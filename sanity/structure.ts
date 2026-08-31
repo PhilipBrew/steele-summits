@@ -8,6 +8,8 @@ export const SINGLETON_TYPES = new Set([
   'servicesPage',
   'blogPage',
   'contactPage',
+  'privacyPolicyPage',
+  'termsPage',
   'siteSettings',
 ]);
 
@@ -34,6 +36,8 @@ export const structure: StructureResolver = (S, context) =>
       singletonListItem(S, 'servicesPage', 'Services Page'),
       singletonListItem(S, 'blogPage', 'Blog Page'),
       singletonListItem(S, 'contactPage', 'Contact Page'),
+      singletonListItem(S, 'privacyPolicyPage', 'Privacy Policy Page'),
+      singletonListItem(S, 'termsPage', 'Terms & Conditions Page'),
       singletonListItem(S, 'siteSettings', 'Site Settings'),
       S.divider(),
       orderableDocumentListDeskItem({

@@ -7,5 +7,7 @@ export const TAGS = {
   servicesPage: 'servicesPage',
   blogPage: 'blogPage',
   contactPage: 'contactPage',
+  privacyPolicyPage: 'privacyPolicyPage',
+  termsPage: 'termsPage',
   siteSettings: 'siteSettings',
 } as const;
