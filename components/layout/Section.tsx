@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import { Container, Stack, Text } from '@/components/ui';
 
-export type SectionBackground = 'default' | 'elevated' | 'accent';
+export type SectionBackground = 'default' | 'elevated' | 'contrast' | 'accent';
 
 export interface SectionProps {
   $background?: SectionBackground;
@@ -22,6 +22,12 @@ const backgroundStyles = {
   `,
   elevated: css`
     background: ${({ theme }) => theme.colors.surfaceElevated};
+  `,
+  // A visibly darker neutral than 'elevated' — for a section that needs to
+  // read as clearly separate from a 'default' section sitting right next to
+  // it, without reaching for the green 'accent' treatment.
+  contrast: css`
+    background: ${({ theme }) => theme.colors.border};
   `,
   accent: css`
     background: ${({ theme }) => theme.colors.primary};

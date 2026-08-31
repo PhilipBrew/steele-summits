@@ -23,6 +23,7 @@ export interface Service {
   specialised?: boolean;
   relatedBlogPosts?: BlogPost[];
   relatedTestimonials?: Testimonial[];
+  enquiryHeading?: string;
   seo?: SanitySeo;
 }
 

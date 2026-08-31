@@ -10,6 +10,7 @@ const serviceFields = groq`
   price,
   priceUnit,
   specialised,
+  enquiryHeading,
   seo
 `;
 

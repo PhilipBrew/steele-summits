@@ -88,6 +88,12 @@ const ServicePage = async ({ params }: ServicePageProps) => {
                 {service.summary}
               </Text>
               <PortableTextRenderer value={service.body} />
+              <Stack $gap="3">
+                <Text $variant="h3" as="h2">
+                  {service.enquiryHeading || `Enquire about ${service.name}`}
+                </Text>
+                <ContactForm fixedService={service.name} />
+              </Stack>
               <ShareButtons
                 url={new URL(`/services/${slug}`, SITE_URL).toString()}
                 title={service.name}
@@ -102,13 +108,19 @@ const ServicePage = async ({ params }: ServicePageProps) => {
         </Stack>
       </Section>
 
-      <Section $background="accent" heading="Enquire about this" align="center">
-        <Stack $align="center">
-          <div style={{ width: '100%', maxWidth: 560 }}>
-            <ContactForm fixedService={service.name} />
-          </div>
-        </Stack>
-      </Section>
+      {relatedBlogPosts.length > 0 && (
+        <Section
+          $background="contrast"
+          eyebrow="From the blog"
+          heading="Related reading"
+        >
+          <CardGrid>
+            {relatedBlogPosts.map(post => (
+              <BlogPostCard key={post.slug} post={post} />
+            ))}
+          </CardGrid>
+        </Section>
+      )}
 
       {relatedTestimonials.length > 0 && (
         <Section
@@ -123,20 +135,6 @@ const ServicePage = async ({ params }: ServicePageProps) => {
                 key={testimonial._id}
                 testimonial={testimonial}
               />
-            ))}
-          </CardGrid>
-        </Section>
-      )}
-
-      {relatedBlogPosts.length > 0 && (
-        <Section
-          $background="elevated"
-          eyebrow="From the blog"
-          heading="Related reading"
-        >
-          <CardGrid>
-            {relatedBlogPosts.map(post => (
-              <BlogPostCard key={post.slug} post={post} />
             ))}
           </CardGrid>
         </Section>

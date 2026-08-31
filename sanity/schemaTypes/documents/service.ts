@@ -75,6 +75,13 @@ export const service = defineType({
         'Optional — shown as a "From the blog" section on this service\'s page. Leave empty to hide.',
     }),
     defineField({
+      name: 'enquiryHeading',
+      title: 'Enquiry form heading',
+      type: 'string',
+      description:
+        'Heading above the contact form on this service\'s page. Defaults to "Enquire about {Service name}" if left blank.',
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',

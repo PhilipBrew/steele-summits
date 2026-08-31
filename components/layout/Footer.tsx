@@ -58,6 +58,24 @@ const InstagramLink = styled.a`
   }
 `;
 
+// Styles the whole anchor (not just the text glyphs) so hover works across
+// its full clickable area, even when a parent Stack stretches the anchor
+// wider than its visible text — the inner Text inherits via color: inherit
+// rather than fighting the anchor's :hover with its own $color rule.
+const FooterLink = styled(Link)<{ $muted?: boolean }>`
+  display: inline-block;
+  color: ${({ theme, $muted }) => ($muted ? theme.colors.muted : theme.colors.ink)};
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+const InheritedText = styled(Text).attrs({ as: 'span' })`
+  color: inherit;
+`;
+
 const Badges = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -108,11 +126,9 @@ export const Footer = ({
           </Text>
           <Stack $gap="2">
             {navLinks.map(link => (
-              <Link key={link.href} href={link.href}>
-                <Text $variant="bodySm" as="span">
-                  {link.label}
-                </Text>
-              </Link>
+              <FooterLink key={link.href} href={link.href}>
+                <InheritedText $variant="bodySm">{link.label}</InheritedText>
+              </FooterLink>
             ))}
           </Stack>
         </Stack>
@@ -122,16 +138,12 @@ export const Footer = ({
             Get in touch
           </Text>
           <Stack $gap="2">
-            <Link href="/contact">
-              <Text $variant="bodySm" as="span">
-                Contact us
-              </Text>
-            </Link>
-            <a href={`mailto:${contactEmail}`}>
-              <Text $variant="bodySm" $color="muted" as="span">
-                {contactEmail}
-              </Text>
-            </a>
+            <FooterLink href="/contact">
+              <InheritedText $variant="bodySm">Contact us</InheritedText>
+            </FooterLink>
+            <FooterLink href={`mailto:${contactEmail}`} $muted>
+              <InheritedText $variant="bodySm">{contactEmail}</InheritedText>
+            </FooterLink>
             {instagramUrl && (
               <InstagramLink
                 href={instagramUrl}
@@ -139,9 +151,7 @@ export const Footer = ({
                 rel="noopener noreferrer"
               >
                 <InstagramIcon size={16} />
-                <Text $variant="bodySm" as="span">
-                  Instagram
-                </Text>
+                <InheritedText $variant="bodySm">Instagram</InheritedText>
               </InstagramLink>
             )}
           </Stack>
@@ -170,16 +180,14 @@ export const Footer = ({
           © {currentYear} {siteName}. All rights reserved.
         </Text>
         <LegalLinks>
-          <Link href="/privacy-policy">
-            <Text $variant="caption" $color="muted" as="span">
-              Privacy Policy
-            </Text>
-          </Link>
-          <Link href="/terms-conditions">
-            <Text $variant="caption" $color="muted" as="span">
+          <FooterLink href="/privacy-policy" $muted>
+            <InheritedText $variant="caption">Privacy Policy</InheritedText>
+          </FooterLink>
+          <FooterLink href="/terms-conditions" $muted>
+            <InheritedText $variant="caption">
               Terms &amp; Conditions
-            </Text>
-          </Link>
+            </InheritedText>
+          </FooterLink>
         </LegalLinks>
       </BottomBar>
     </Container>
