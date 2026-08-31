@@ -17,6 +17,8 @@ import {
   getSiteSettings,
 } from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
+import { buildBreadcrumbSchema } from '@/lib/sanity/structuredData';
+import { StructuredData } from '@/components/StructuredData';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
@@ -65,13 +67,17 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
     notFound();
   }
 
+  const breadcrumbItems = [
+    { label: 'Blog', href: '/blog' },
+    { label: post.title },
+  ];
+
   return (
     <>
+      <StructuredData data={buildBreadcrumbSchema(breadcrumbItems)} />
       <Section $background="default">
         <Stack $gap="6" style={{ maxWidth: 720, marginInline: 'auto' }}>
-          <Breadcrumbs
-            items={[{ label: 'Blog', href: '/blog' }, { label: post.title }]}
-          />
+          <Breadcrumbs items={breadcrumbItems} />
           <Stack $gap="3">
             <Text $variant="h1" as="h1">
               {post.title}

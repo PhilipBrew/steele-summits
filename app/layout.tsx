@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Fraunces, Karla } from 'next/font/google';
 
 const headingFont = Fraunces({
@@ -12,6 +12,10 @@ const bodyFont = Karla({
 });
 
 const isIndexable = process.env.NEXT_PUBLIC_SITE_INDEXABLE === 'true';
+
+export const viewport: Viewport = {
+  themeColor: '#3A5A40',
+};
 
 export const metadata: Metadata = {
   title: 'Steele Summit',

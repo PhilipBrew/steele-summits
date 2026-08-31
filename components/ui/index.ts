@@ -2,6 +2,7 @@ export * from './Container';
 export * from './Stack';
 export * from './Text';
 export * from './Breadcrumbs';
+export * from './SkipLink';
 export * from './Button';
 export * from './Card';
 export * from './Badge';

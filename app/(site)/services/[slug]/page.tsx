@@ -17,7 +17,9 @@ import {
   getSiteSettings,
 } from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
+import { buildBreadcrumbSchema } from '@/lib/sanity/structuredData';
 import { formatPrice } from '@/lib/sanity/price';
+import { StructuredData } from '@/components/StructuredData';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
@@ -61,17 +63,17 @@ const ServicePage = async ({ params }: ServicePageProps) => {
 
   const relatedBlogPosts = service.relatedBlogPosts ?? [];
   const relatedTestimonials = service.relatedTestimonials ?? [];
+  const breadcrumbItems = [
+    { label: 'Services', href: '/services' },
+    { label: service.name },
+  ];
 
   return (
     <>
+      <StructuredData data={buildBreadcrumbSchema(breadcrumbItems)} />
       <Section $background="default">
         <Stack $gap="6">
-          <Breadcrumbs
-            items={[
-              { label: 'Services', href: '/services' },
-              { label: service.name },
-            ]}
-          />
+          <Breadcrumbs items={breadcrumbItems} />
           <TwoColumnGrid>
             <Stack $gap="4">
               <Text $variant="h1" as="h1">

@@ -127,9 +127,11 @@ export const Footer = ({
                 Contact us
               </Text>
             </Link>
-            <Text $variant="bodySm" $color="muted">
-              {contactEmail}
-            </Text>
+            <a href={`mailto:${contactEmail}`}>
+              <Text $variant="bodySm" $color="muted" as="span">
+                {contactEmail}
+              </Text>
+            </a>
             {instagramUrl && (
               <InstagramLink
                 href={instagramUrl}

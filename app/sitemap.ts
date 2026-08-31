@@ -4,7 +4,15 @@ import { getServiceSlugs, getBlogPostSlugs } from '@/lib/sanity/fetchers';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
-const STATIC_ROUTES = ['/', '/about', '/services', '/blog', '/contact'];
+const STATIC_ROUTES = [
+  '/',
+  '/about',
+  '/services',
+  '/blog',
+  '/contact',
+  '/privacy-policy',
+  '/terms-conditions',
+];
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const [serviceSlugs, blogPostSlugs] = await Promise.all([

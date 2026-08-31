@@ -57,6 +57,8 @@ export const buildMetadata = ({
       title,
       description,
       url: canonical,
+      siteName: 'Steele Summit',
+      locale: 'en_GB',
       images: ogImageUrl
         ? [
             {

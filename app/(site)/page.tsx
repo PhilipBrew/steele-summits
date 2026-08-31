@@ -11,6 +11,8 @@ import {
   getSiteSettings,
 } from '@/lib/sanity/fetchers';
 import { buildMetadata } from '@/lib/sanity/seo';
+import { buildLocalBusinessSchema } from '@/lib/sanity/structuredData';
+import { StructuredData } from '@/components/StructuredData';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const [homePage, siteSettings] = await Promise.all([
@@ -44,6 +46,7 @@ const HomePage = async () => {
 
   return (
     <>
+      <StructuredData data={buildLocalBusinessSchema(siteSettings)} />
       <Hero
         eyebrow={homePage?.heroEyebrow}
         heading={

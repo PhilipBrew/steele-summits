@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { SkipLink } from '@/components/ui';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { getSiteSettings } from '@/lib/sanity/fetchers';
@@ -18,12 +19,13 @@ export const SiteChrome = async ({ children }: { children: ReactNode }) => {
 
   return (
     <>
+      <SkipLink href="#main-content">Skip to content</SkipLink>
       <Header
         siteName={siteSettings?.siteName ?? 'Steele Summit'}
         navLinks={siteSettings?.navLinks ?? FALLBACK_NAV_LINKS}
         instagramUrl={siteSettings?.instagramUrl}
       />
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
       <Footer
         siteName={siteSettings?.siteName ?? 'Steele Summit'}
         footerTagline={siteSettings?.footerTagline}

@@ -45,4 +45,17 @@ export const GlobalStyle = createGlobalStyle`
     display: block;
     max-width: 100%;
   }
+
+  /* Baseline focus ring for every focusable element — components that need
+     their own treatment (Button, Checkbox) define a more specific
+     :focus-visible rule that wins the cascade over this. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.accent};
+    outline-offset: 2px;
+  }
 `;
