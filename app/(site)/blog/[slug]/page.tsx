@@ -44,6 +44,7 @@ export const generateMetadata = async ({
     seo: post?.seo,
     fallbackTitle: post?.title ?? 'Blog',
     fallbackDescription: post?.excerpt,
+    fallbackImage: post?.heroImage,
     path: `/blog/${slug}`,
     siteSettings,
   });

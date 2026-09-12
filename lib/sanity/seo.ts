@@ -1,15 +1,21 @@
 import type { Metadata } from 'next';
 
 import { urlFor } from '@/lib/sanity/image';
-import type { SanitySeo, SiteSettings } from '@/lib/sanity/types';
+import type {
+  SanityImageWithAlt,
+  SanitySeo,
+  SiteSettings,
+} from '@/lib/sanity/types';
 
 export interface BuildMetadataArgs {
   seo?: SanitySeo | null;
   fallbackTitle: string;
   fallbackDescription?: string;
+  /** The page's own hero image, used as the last-resort OG/Twitter share image. */
+  fallbackImage?: SanityImageWithAlt | null;
   path: string;
   siteSettings?: SiteSettings | null;
-  /** Appended after the page title — pass '' for the homepage, which is already just the site name. */
+  /** Appended after fallbackTitle only — never applied on top of an editor-provided seo.metaTitle. */
   suffix?: string;
 }
 
@@ -20,18 +26,23 @@ export const buildMetadata = ({
   seo,
   fallbackTitle,
   fallbackDescription,
+  fallbackImage,
   path,
   siteSettings,
-  suffix = ' — Steele Summit',
+  suffix,
 }: BuildMetadataArgs): Metadata => {
-  const title = `${seo?.metaTitle || fallbackTitle}${suffix}`;
+  const siteName = siteSettings?.siteName ?? 'Steele Summit';
+  const title =
+    seo?.metaTitle ?? `${fallbackTitle}${suffix ?? ` — ${siteName}`}`;
   const description =
     seo?.metaDescription ||
     fallbackDescription ||
     siteSettings?.defaultSeo?.metaDescription;
   const ogImageSource = seo?.ogImage?.asset
     ? seo.ogImage
-    : siteSettings?.defaultSeo?.ogImage;
+    : siteSettings?.defaultSeo?.ogImage?.asset
+      ? siteSettings.defaultSeo.ogImage
+      : fallbackImage;
   const ogImageUrl = ogImageSource?.asset
     ? urlFor(ogImageSource).width(1200).height(630).url()
     : undefined;
@@ -57,7 +68,7 @@ export const buildMetadata = ({
       title,
       description,
       url: canonical,
-      siteName: 'Steele Summit',
+      siteName,
       locale: 'en_GB',
       images: ogImageUrl
         ? [

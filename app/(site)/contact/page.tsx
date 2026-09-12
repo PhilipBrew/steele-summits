@@ -20,6 +20,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     fallbackTitle: 'Contact',
     fallbackDescription:
       'Enquire about a guided walk, a yoga session, or a trip.',
+    fallbackImage: contactPage?.heroImage,
     path: '/contact',
     siteSettings,
   });

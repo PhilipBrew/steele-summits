@@ -18,6 +18,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     seo: servicesPage?.seo,
     fallbackTitle: 'Services',
     fallbackDescription: 'Guided mountain walks and outdoor yoga sessions.',
+    fallbackImage: servicesPage?.heroImage,
     path: '/services',
     siteSettings,
   });

@@ -18,6 +18,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     fallbackTitle: 'About',
     fallbackDescription:
       'Why Steele Summit exists, how routes and sessions are planned, and what makes it different.',
+    fallbackImage: aboutPage?.heroImage,
     path: '/about',
     siteSettings,
   });

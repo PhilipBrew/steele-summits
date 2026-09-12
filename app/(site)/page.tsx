@@ -24,9 +24,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
     seo: homePage?.seo,
     fallbackTitle: 'Steele Summit',
     fallbackDescription: siteSettings?.footerTagline,
+    fallbackImage: homePage?.heroImage,
     path: '/',
     siteSettings,
-    suffix: '',
   });
 };
 

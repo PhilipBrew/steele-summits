@@ -20,6 +20,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     seo: blogPage?.seo,
     fallbackTitle: 'Blog',
     fallbackDescription: 'Notes on mountain walking, navigation, and yoga.',
+    fallbackImage: blogPage?.heroImage,
     path: '/blog',
     siteSettings,
   });
