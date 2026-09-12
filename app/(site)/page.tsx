@@ -111,8 +111,8 @@ const HomePage = async () => {
 
       <Section
         $background="elevated"
-        eyebrow="From the blog"
-        heading="Notes from the trail and the mat"
+        eyebrow={homePage?.blogEyebrow ?? 'From the blog'}
+        heading={homePage?.blogHeading ?? 'Notes from the trail and the mat'}
       >
         <CardGrid>
           {(featuredBlogPosts.length

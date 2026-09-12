@@ -45,6 +45,16 @@ export const homePage = defineType({
       rows: 2,
     }),
     defineField({
+      name: 'blogEyebrow',
+      title: '"From the blog" eyebrow',
+      type: 'string',
+    }),
+    defineField({
+      name: 'blogHeading',
+      title: '"From the blog" heading',
+      type: 'string',
+    }),
+    defineField({
       name: 'testimonialsEyebrow',
       title: 'Testimonials eyebrow',
       type: 'string',

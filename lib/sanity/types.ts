@@ -56,6 +56,8 @@ export interface HomePage {
   offerEyebrow?: string;
   offerHeading?: string;
   offerIntro?: string;
+  blogEyebrow?: string;
+  blogHeading?: string;
   testimonialsEyebrow?: string;
   testimonialsHeading?: string;
   ctaHeading?: string;
