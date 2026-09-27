@@ -6,4 +6,5 @@ export * from './Section';
 export * from './SplitContent';
 export * from './CTASection';
 export * from './CardGrid';
+export * from './Mosaic';
 export * from './TwoColumnGrid';

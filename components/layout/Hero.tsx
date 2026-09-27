@@ -23,20 +23,30 @@ export interface HeroProps {
   heroImage?: SanityImageWithAlt | null;
 }
 
+// Height is viewport-relative rather than a fixed 640px, so the hero always
+// leaves room for the CTAs plus a hint of the section below, instead of
+// eating a laptop viewport whole. dvh (not vh) so mobile browser chrome
+// appearing and disappearing doesn't cause a jump.
 const Wrapper = styled.section<{ $size: 'lg' | 'md' }>`
   position: relative;
   isolation: isolate;
   overflow: hidden;
   display: flex;
   align-items: flex-end;
-  min-height: ${({ $size }) => ($size === 'lg' ? '640px' : '420px')};
+  min-height: ${({ $size }) =>
+    $size === 'lg'
+      ? 'clamp(30rem, 78dvh, 44rem)'
+      : 'clamp(22rem, 52dvh, 30rem)'};
   padding-block: ${({ theme }) => theme.space[8]};
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    min-height: ${({ $size }) => ($size === 'lg' ? '520px' : '380px')};
+    min-height: ${({ $size }) =>
+      $size === 'lg'
+        ? 'clamp(26rem, 68dvh, 34rem)'
+        : 'clamp(20rem, 44dvh, 26rem)'};
     padding-top: ${({ theme }) => theme.space[6]};
-    padding-bottom: ${({ theme }) => theme.space[9]};
+    padding-bottom: ${({ theme }) => theme.space[8]};
   }
 `;
 
@@ -74,6 +84,18 @@ const Heading = styled(Text)`
   }
 `;
 
+// Deliberately wide rather than a narrow asymmetric column. A narrower
+// column does not save vertical space, it costs it: the same intro copy
+// wraps into more lines and pushes the CTAs further down, which works
+// against keeping the hero short enough to show the next section. 47.5rem
+// still caps the measure so the copy never runs uncomfortably wide on a
+// large display.
+const ContentStack = styled(Stack)<{ $centered: boolean }>`
+  max-width: 47.5rem;
+  margin-inline: ${({ $centered }) => ($centered ? 'auto' : '0')};
+  text-align: ${({ $centered }) => ($centered ? 'center' : 'left')};
+`;
+
 export const Hero = ({
   eyebrow,
   heading,
@@ -99,14 +121,10 @@ export const Hero = ({
     <Scrim />
     <Content>
       <Container>
-        <Stack
+        <ContentStack
           $gap="5"
           $align={align === 'center' ? 'center' : 'stretch'}
-          style={
-            align === 'center'
-              ? { textAlign: 'center', marginInline: 'auto', maxWidth: 760 }
-              : { maxWidth: 760 }
-          }
+          $centered={align === 'center'}
         >
           <HeadingGroup>
             {eyebrow && (
@@ -128,7 +146,7 @@ export const Hero = ({
               {actions}
             </Stack>
           )}
-        </Stack>
+        </ContentStack>
       </Container>
     </Content>
   </Wrapper>

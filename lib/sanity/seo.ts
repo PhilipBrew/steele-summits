@@ -33,7 +33,7 @@ export const buildMetadata = ({
 }: BuildMetadataArgs): Metadata => {
   const siteName = siteSettings?.siteName ?? 'Steele Summit';
   const title =
-    seo?.metaTitle ?? `${fallbackTitle}${suffix ?? ` — ${siteName}`}`;
+    seo?.metaTitle ?? `${fallbackTitle}${suffix ?? ` | ${siteName}`}`;
   const description =
     seo?.metaDescription ||
     fallbackDescription ||

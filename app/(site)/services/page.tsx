@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Hero, Section } from '@/components/layout';
+import { Text } from '@/components/ui';
 import {
   getServices,
   getServicesPage,
@@ -39,7 +40,7 @@ const ServicesPage = async () => {
         heading={servicesPage?.heroHeading ?? 'Guided walks and yoga sessions'}
         intro={
           servicesPage?.heroIntro ??
-          'Every route and every session is planned around the people taking part — from a first Wainwright to a multi-day expedition, from a single class to a regular practice.'
+          'Every route and every session is planned around the people taking part, from a first Wainwright to a multi-day expedition, from a single class to a regular practice.'
         }
         heroImage={servicesPage?.heroImage}
         $scene="summit"
@@ -55,6 +56,15 @@ const ServicesPage = async () => {
       {specialisedServices.length > 0 && (
         <Section id="specialised" $background="default" heading="Specialised">
           <ServiceRows services={specialisedServices} />
+        </Section>
+      )}
+
+      {services.length === 0 && (
+        <Section $background="default">
+          <Text $variant="bodyLg" $color="muted">
+            Services are being updated. Get in touch and we can talk through
+            what you have in mind.
+          </Text>
         </Section>
       )}
     </>

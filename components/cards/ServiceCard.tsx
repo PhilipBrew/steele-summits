@@ -23,7 +23,7 @@ export const ServiceCard = ({
             {formatPrice(service)}
           </Text>
         )}
-        <Text $variant="h4" as="h3">
+        <Text $variant="h3" as="h3">
           {service.name}
         </Text>
         <Text $variant="bodySm" $color="muted">

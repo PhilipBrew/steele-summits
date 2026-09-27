@@ -32,7 +32,7 @@ const SiteError = ({ error, reset }: SiteErrorProps) => {
           We hit an unexpected error
         </Text>
         <Text $variant="bodyLg" $color="muted">
-          Please try again — if it keeps happening, get in touch and let us know
+          Please try again. If it keeps happening, get in touch and let us know
           what you were doing.
         </Text>
         <Stack $direction="row" $gap="3" $wrap $justify="center">

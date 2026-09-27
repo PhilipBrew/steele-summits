@@ -58,13 +58,6 @@ export const siteSettings = defineType({
         'Qualification badges/logos — shown in the footer and as a carousel on the About page. Drag to reorder.',
     }),
     defineField({
-      name: 'testimonialsEyebrow',
-      title: 'Testimonials section eyebrow',
-      type: 'string',
-      description:
-        'Used above "What people say" wherever testimonials appear outside the homepage (e.g. on a service page).',
-    }),
-    defineField({
       name: 'testimonialsHeading',
       title: 'Testimonials section heading',
       type: 'string',

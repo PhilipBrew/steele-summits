@@ -66,7 +66,7 @@ export const ContactForm = ({ services, fixedService }: ContactFormProps) => {
       <Card>
         <Stack $gap="2">
           <Text $variant="h4" as="h2">
-            Thanks — we&apos;ll be in touch.
+            Thanks, we&apos;ll be in touch.
           </Text>
           <Text $variant="bodySm" $color="muted">
             Expect a reply within one working day.
@@ -156,7 +156,7 @@ export const ContactForm = ({ services, fixedService }: ContactFormProps) => {
           />
           {status === 'error' && (
             <Text $variant="bodySm" $color="danger">
-              Something went wrong sending your message — please try again, or
+              Something went wrong sending your message. Please try again, or
               email us directly.
             </Text>
           )}

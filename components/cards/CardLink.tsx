@@ -18,6 +18,48 @@ export const StretchCard = styled(Card)`
   flex-direction: column;
   gap: ${({ theme }) => theme.space[4]};
   width: 100%;
+
+  /* Transform and box-shadow only, so hover stays on the compositor and
+     never reflows the grid around it. */
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  ${CardLink}:hover & {
+    transform: translateY(-3px);
+    box-shadow: ${({ theme }) => theme.shadows.cardElevated};
+  }
+
+  ${CardLink}:active & {
+    transform: translateY(-1px);
+  }
+
+  ${CardLink}:focus-visible & {
+    box-shadow: ${({ theme }) => theme.shadows.cardElevated};
+  }
+
+  img {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  ${CardLink}:hover & img {
+    transform: scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    ${CardLink}:hover &,
+    ${CardLink}:active & {
+      transform: none;
+    }
+
+    img,
+    ${CardLink}:hover & img {
+      transition: none;
+      transform: none;
+    }
+  }
 `;
 
 export const ReadMore = styled(Text).attrs({

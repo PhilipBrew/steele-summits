@@ -1,5 +1,6 @@
 export * from './Container';
 export * from './Stack';
+export * from './Reveal';
 export * from './Text';
 export * from './Breadcrumbs';
 export * from './SkipLink';

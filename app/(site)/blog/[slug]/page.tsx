@@ -77,7 +77,12 @@ const BlogPostPage = async ({ params }: BlogPostPageProps) => {
     <>
       <StructuredData data={buildBreadcrumbSchema(breadcrumbItems)} />
       <Section $background="default">
-        <Stack $gap="6" style={{ maxWidth: 720, marginInline: 'auto' }}>
+        {/* 48rem (768px) rather than 720px. Running paragraphs are already
+            near the upper limit of a comfortable measure at this width, but
+            these posts are mostly long kit lists, where each item carries a
+            bold lead-in plus a description and wraps badly in a narrower
+            column. Matches the cap inside PortableTextRenderer's Prose. */}
+        <Stack $gap="6" style={{ maxWidth: '48rem', marginInline: 'auto' }}>
           <Breadcrumbs items={breadcrumbItems} />
           <Stack $gap="3">
             <Text $variant="h1" as="h1">

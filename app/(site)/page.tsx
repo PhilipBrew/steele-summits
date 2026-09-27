@@ -1,8 +1,20 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui';
-import { CardGrid, CTASection, Hero, Section } from '@/components/layout';
-import { BlogPostCard, ServiceCard, TestimonialCard } from '@/components/cards';
+import {
+  AsymmetricGrid,
+  CTASection,
+  Hero,
+  Section,
+  SecondaryRow,
+  StaggeredGrid,
+} from '@/components/layout';
+import { Reveal, Stack } from '@/components/ui';
+import {
+  FeaturedPostCard,
+  ServiceCard,
+  TestimonialCard,
+} from '@/components/cards';
 import {
   getHomePage,
   getServices,
@@ -43,6 +55,14 @@ const HomePage = async () => {
   const standardServices = services.filter(service => !service.specialised);
   const specialisedServices = services.filter(service => service.specialised);
   const featuredBlogPosts = blogPosts.filter(post => post.featured).slice(0, 3);
+  // The blog section leads with one post and follows with the rest, rather
+  // than three equal cards. Falls back to most-recent when nothing is
+  // flagged as featured in the CMS.
+  // Two posts, each given the full side-by-side treatment. More than that
+  // and the section outweighs the services above it.
+  const homepagePosts = (
+    featuredBlogPosts.length ? featuredBlogPosts : blogPosts
+  ).slice(0, 2);
 
   return (
     <>
@@ -75,69 +95,61 @@ const HomePage = async () => {
       {standardServices.length > 0 && (
         <Section
           $background="elevated"
-          eyebrow={homePage?.offerEyebrow ?? 'Services'}
           heading={homePage?.offerHeading ?? 'Guided walks and yoga sessions'}
           intro={homePage?.offerIntro}
         >
-          <CardGrid>
-            {standardServices.map(service => (
-              <ServiceCard
-                key={service.slug}
-                service={service}
-                showPrice={false}
-              />
+          <AsymmetricGrid>
+            {standardServices.map((service, index) => (
+              <Reveal key={service.slug} delay={index * 70}>
+                <ServiceCard service={service} showPrice={false} />
+              </Reveal>
             ))}
-          </CardGrid>
+          </AsymmetricGrid>
         </Section>
       )}
 
       {specialisedServices.length > 0 && (
-        <Section
-          $background="default"
-          eyebrow="Specialised"
-          heading="Specialised services"
-        >
-          <CardGrid>
-            {specialisedServices.map(service => (
-              <ServiceCard
-                key={service.slug}
-                service={service}
-                showPrice={false}
-              />
+        <Section $background="default" heading="Specialised services">
+          <SecondaryRow>
+            {specialisedServices.map((service, index) => (
+              <Reveal key={service.slug} delay={index * 70}>
+                <ServiceCard service={service} showPrice={false} />
+              </Reveal>
             ))}
-          </CardGrid>
+          </SecondaryRow>
         </Section>
       )}
 
       <Section
         $background="elevated"
-        eyebrow={homePage?.blogEyebrow ?? 'From the blog'}
         heading={homePage?.blogHeading ?? 'Notes from the trail and the mat'}
       >
-        <CardGrid>
-          {(featuredBlogPosts.length
-            ? featuredBlogPosts
-            : blogPosts.slice(0, 3)
-          ).map(post => (
-            <BlogPostCard key={post.slug} post={post} />
+        <Stack $gap="7">
+          {homepagePosts.map((post, index) => (
+            <Reveal key={post.slug}>
+              {/* Same treatment for every post, mirrored on alternate rows
+                  so the section has rhythm without a second card design. */}
+              <FeaturedPostCard post={post} $flip={index % 2 === 1} />
+            </Reveal>
           ))}
-        </CardGrid>
+        </Stack>
         <Link href="/blog">
           <Button $variant="outline">Read the blog</Button>
         </Link>
       </Section>
 
       <Section
-        $background="accent"
-        eyebrow={homePage?.testimonialsEyebrow}
+        $background="contrast"
         heading={homePage?.testimonialsHeading ?? 'What people say'}
         align="center"
       >
-        <CardGrid>
-          {testimonials.map(testimonial => (
-            <TestimonialCard key={testimonial._id} testimonial={testimonial} />
+        <StaggeredGrid>
+          {testimonials.map((testimonial, index) => (
+            <Reveal key={testimonial._id} delay={index * 70}>
+              <TestimonialCard testimonial={testimonial} />
+            </Reveal>
           ))}
-        </CardGrid>
+        </StaggeredGrid>
       </Section>
 
       <CTASection

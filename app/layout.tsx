@@ -1,14 +1,21 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Karla } from 'next/font/google';
+import { Source_Serif_4, Karla } from 'next/font/google';
 
-const headingFont = Fraunces({
+// Source Serif 4 over Fraunces: sturdier and more utilitarian-editorial,
+// which suits a safety-led guiding brand better than Fraunces' display
+// quirk. Variable weight axis so headings can use real mid-weights, and an
+// optical-size axis so large display text tightens automatically.
+const headingFont = Source_Serif_4({
   variable: '--font-heading',
   subsets: ['latin'],
+  axes: ['opsz'],
+  display: 'swap',
 });
 
 const bodyFont = Karla({
   variable: '--font-body',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const isIndexable = process.env.NEXT_PUBLIC_SITE_INDEXABLE === 'true';
@@ -20,7 +27,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'Steele Summit',
   description:
-    'Steele Summit — guided mountain walking and outdoor yoga across the Lake District and Northumberland.',
+    'Steele Summit: guided mountain walking and outdoor yoga across the Lake District and Northumberland.',
   robots: isIndexable
     ? undefined
     : {

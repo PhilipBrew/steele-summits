@@ -6,10 +6,60 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import { Text, SanityImage } from '@/components/ui';
+import { dimensionsFromRef } from '@/lib/sanity/image';
 import type { SanityImageWithAlt, SanityTable } from '@/lib/sanity/types';
 
+// Rich text renders into a single block-level wrapper rather than as loose
+// siblings. Callers place this inside a flex `Stack`, so without a wrapper
+// every paragraph became its own flex item: the Stack's gap applied BETWEEN
+// paragraphs on top of each paragraph's own margins, and flex items don't
+// margin-collapse. A 2rem stack gap plus 1em+1em of margins was rendering
+// 4rem between every paragraph. Inside this block container margins collapse
+// normally, so the rhythm below is the real, single source of spacing.
+const Prose = styled.div`
+  // A measure cap for callers that don't impose their own width (the
+  // service page drops body copy straight into a grid column). Expressed in
+  // rem rather than ch: a 68ch cap lands near 545px in Karla, which fought
+  // the blog article's own container and made long kit lists wrap far more
+  // than they needed to. 48rem matches the article container exactly, so
+  // the two never disagree about the measure.
+  > * {
+    max-width: 48rem;
+  }
+
+  > .pt-table {
+    max-width: none;
+  }
+
+  // Paragraph rhythm is em-based so it tracks the text size it separates.
+  > * + * {
+    margin-top: 1.1em;
+  }
+
+  // Heading spacing is rem-based on purpose: 'em' here would resolve
+  // against the heading's own font-size, so 2em above a 44px h2 would be
+  // ~88px. Fixed rem keeps the rhythm predictable across heading levels.
+  > * + h2 {
+    margin-top: 2.5rem;
+  }
+
+  > * + h3 {
+    margin-top: 2rem;
+  }
+
+  > * + h4 {
+    margin-top: 1.75rem;
+  }
+
+  // A heading should sit close to the content it introduces.
+  > h2 + *,
+  > h3 + *,
+  > h4 + * {
+    margin-top: 0.75rem;
+  }
+`;
+
 const List = styled.ul`
-  margin: 0.75em 0;
   padding-left: 1.25em;
   display: flex;
   flex-direction: column;
@@ -21,7 +71,6 @@ const Blockquote = styled(Text).attrs({
   $variant: 'bodyLg',
   $color: 'muted',
 })`
-  margin: 1.5em 0;
   padding-left: ${({ theme }) => theme.space[5]};
   border-left: 3px solid ${({ theme }) => theme.colors.accent};
   font-style: italic;
@@ -55,7 +104,6 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 // Horizontal-scroll wrapper so a wide table doesn't blow out the layout on
 // narrow viewports — the table itself is never squeezed or wrapped.
 const TableScroll = styled.div`
-  margin: 1.5em 0;
   overflow-x: auto;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.radii.md};
@@ -99,23 +147,19 @@ const Table = styled.table`
 // (galleries, callouts, etc.) without a content-model migration.
 const components: PortableTextComponents = {
   block: {
-    normal: ({ children }) => (
-      <Text $variant="body" style={{ marginBlock: '1em' }}>
-        {children}
-      </Text>
-    ),
+    normal: ({ children }) => <Text $variant="body">{children}</Text>,
     h2: ({ children }) => (
-      <Text $variant="h2" as="h2" style={{ marginBlockStart: '1.5em' }}>
+      <Text $variant="h2" as="h2">
         {children}
       </Text>
     ),
     h3: ({ children }) => (
-      <Text $variant="h3" as="h3" style={{ marginBlockStart: '1.25em' }}>
+      <Text $variant="h3" as="h3">
         {children}
       </Text>
     ),
     h4: ({ children }) => (
-      <Text $variant="h4" as="h4" style={{ marginBlockStart: '1em' }}>
+      <Text $variant="h4" as="h4">
         {children}
       </Text>
     ),
@@ -163,20 +207,34 @@ const components: PortableTextComponents = {
     },
   },
   types: {
-    imageWithAlt: ({ value }: { value: SanityImageWithAlt }) => (
-      <SanityImage
-        image={value}
-        width={800}
-        height={600}
-        style={{ width: '100%', height: 'auto' }}
-      />
-    ),
+    imageWithAlt: ({ value }: { value: SanityImageWithAlt }) => {
+      // Real intrinsic dimensions rather than a hardcoded 800x600. These
+      // images are often portrait (3024x4032 straight off a phone), and a
+      // fixed landscape box meant the browser reserved the wrong space and
+      // the article jumped when each one loaded.
+      const dimensions = dimensionsFromRef(value) ?? {
+        width: 800,
+        height: 600,
+      };
+
+      return (
+        <SanityImage
+          image={value}
+          width={dimensions.width}
+          height={dimensions.height}
+          // Without this Next assumes full viewport width and serves a
+          // 1920px file into a ~700px column.
+          sizes="(min-width: 768px) 768px, 100vw"
+          style={{ width: '100%', height: 'auto' }}
+        />
+      );
+    },
     table: ({ value }: { value: SanityTable }) => {
       const [headerRow, ...bodyRows] = value.rows ?? [];
       if (!headerRow) return null;
 
       return (
-        <TableScroll>
+        <TableScroll className="pt-table">
           <Table>
             <thead>
               <tr>
@@ -208,4 +266,8 @@ export interface PortableTextRendererProps {
 }
 
 export const PortableTextRenderer = ({ value }: PortableTextRendererProps) =>
-  value ? <PortableText value={value} components={components} /> : null;
+  value ? (
+    <Prose>
+      <PortableText value={value} components={components} />
+    </Prose>
+  ) : null;

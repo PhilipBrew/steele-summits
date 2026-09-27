@@ -41,7 +41,7 @@ export const PreviewBanner = async () => {
       }}
     >
       <span>
-        Preview mode — you&rsquo;re viewing draft content that isn&rsquo;t
+        Preview mode: you&rsquo;re viewing draft content that isn&rsquo;t
         published yet.
       </span>
       <form action={exitPreview}>
