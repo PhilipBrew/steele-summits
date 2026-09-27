@@ -26,44 +26,52 @@ export interface TextProps {
 const variantStyles = {
   display: css`
     font-family: ${({ theme }) => theme.fonts.heading};
+    text-wrap: balance;
     font-size: ${({ theme }) => theme.fontSizes['5xl']};
     line-height: ${({ theme }) => theme.lineHeights.tight};
     letter-spacing: -0.01em;
   `,
   h1: css`
     font-family: ${({ theme }) => theme.fonts.heading};
+    text-wrap: balance;
     font-size: ${({ theme }) => theme.fontSizes['4xl']};
     line-height: ${({ theme }) => theme.lineHeights.heading};
     letter-spacing: -0.01em;
   `,
   h2: css`
     font-family: ${({ theme }) => theme.fonts.heading};
+    text-wrap: balance;
     font-size: ${({ theme }) => theme.fontSizes['3xl']};
     line-height: ${({ theme }) => theme.lineHeights.heading};
     letter-spacing: -0.01em;
   `,
   h3: css`
     font-family: ${({ theme }) => theme.fonts.heading};
+    text-wrap: balance;
     font-size: ${({ theme }) => theme.fontSizes['2xl']};
     line-height: ${({ theme }) => theme.lineHeights.heading};
   `,
   h4: css`
     font-family: ${({ theme }) => theme.fonts.heading};
+    text-wrap: balance;
     font-size: ${({ theme }) => theme.fontSizes.xl};
     line-height: ${({ theme }) => theme.lineHeights.heading};
   `,
   bodyLg: css`
     font-family: ${({ theme }) => theme.fonts.body};
+    text-wrap: pretty;
     font-size: ${({ theme }) => theme.fontSizes.lg};
     line-height: ${({ theme }) => theme.lineHeights.body};
   `,
   body: css`
     font-family: ${({ theme }) => theme.fonts.body};
+    text-wrap: pretty;
     font-size: ${({ theme }) => theme.fontSizes.md};
     line-height: ${({ theme }) => theme.lineHeights.body};
   `,
   bodySm: css`
     font-family: ${({ theme }) => theme.fonts.body};
+    text-wrap: pretty;
     font-size: ${({ theme }) => theme.fontSizes.sm};
     line-height: ${({ theme }) => theme.lineHeights.body};
   `,
@@ -91,8 +99,12 @@ const colorStyles = {
   primary: css`
     color: ${({ theme }) => theme.colors.primary};
   `,
+  // accentDark, not accent: the lighter accent measures 4.11:1 on the
+  // parchment surface, which fails WCAG AA for body text. accentDark is
+  // 6.71:1. The lighter accent is still used for fills, borders and focus
+  // rings, where the 3:1 non-text threshold applies instead.
   accent: css`
-    color: ${({ theme }) => theme.colors.accent};
+    color: ${({ theme }) => theme.colors.accentDark};
   `,
   white: css`
     color: ${({ theme }) => theme.colors.white};

@@ -21,7 +21,7 @@ import {
 } from '@/lib/sanity/fetchers';
 
 export const metadata: Metadata = {
-  title: 'Style Guide — Steele Summit',
+  title: 'Style Guide | Steele Summit',
 };
 
 const colorEntries = Object.entries(theme.colors);
@@ -82,32 +82,32 @@ const StyleGuidePage = async () => {
           </Text>
           <Stack $gap="4">
             <Text $variant="display" as="p">
-              Display — Steele Summit
+              Display: Steele Summit
             </Text>
             <Text $variant="h1" as="p">
-              Heading 1 — Guided Mountain Walks
+              Heading 1: Guided Mountain Walks
             </Text>
             <Text $variant="h2" as="p">
-              Heading 2 — Our Services
+              Heading 2: Our Services
             </Text>
             <Text $variant="h3" as="p">
-              Heading 3 — Hill & Summit Yoga
+              Heading 3: Hill & Summit Yoga
             </Text>
             <Text $variant="h4" as="p">
-              Heading 4 — Route Notes
+              Heading 4: Route Notes
             </Text>
             <Text $variant="bodyLg">
-              Body Large — used for intros and lead paragraphs.
+              Body Large: used for intros and lead paragraphs.
             </Text>
             <Text $variant="body">
-              Body — the default paragraph style for most page content across
-              the site.
+              Body: the default paragraph style for most page content across the
+              site.
             </Text>
             <Text $variant="bodySm" $color="muted">
-              Body Small — secondary/supporting copy.
+              Body Small: secondary/supporting copy.
             </Text>
             <Text $variant="caption" $color="muted">
-              Caption — image credits, fine print.
+              Caption: image credits, fine print.
             </Text>
             <Text $variant="eyebrow" $color="primary">
               Eyebrow label
@@ -170,7 +170,7 @@ const StyleGuidePage = async () => {
                   Default Card Variant
                 </Text>
                 <Text $variant="bodySm" $color="muted">
-                  White background — the default variant, used on both surface
+                  White background: the default variant, used on both surface
                   and elevated section backgrounds.
                 </Text>
               </Stack>

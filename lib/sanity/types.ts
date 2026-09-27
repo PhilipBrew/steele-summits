@@ -65,12 +65,9 @@ export interface HomePage {
   heroHeading: string;
   heroIntro?: string;
   heroImage?: SanityImageWithAlt;
-  offerEyebrow?: string;
   offerHeading?: string;
   offerIntro?: string;
-  blogEyebrow?: string;
   blogHeading?: string;
-  testimonialsEyebrow?: string;
   testimonialsHeading?: string;
   ctaHeading?: string;
   ctaBody?: string;
@@ -82,11 +79,9 @@ export interface AboutPage {
   heroHeading: string;
   heroIntro?: string;
   heroImage?: SanityImageWithAlt;
-  approachEyebrow?: string;
   approachHeading?: string;
   approachBody?: PortableTextBlock[];
   approachImage?: SanityImageWithAlt;
-  whyEyebrow?: string;
   whyHeading?: string;
   whyIntro?: string;
   ctaHeading?: string;
@@ -149,7 +144,6 @@ export interface SiteSettings {
   footerTagline?: string;
   contactEmail: string;
   qualifications?: SanityImageWithAlt[];
-  testimonialsEyebrow?: string;
   testimonialsHeading?: string;
   ctaHeading?: string;
   ctaBody?: string;

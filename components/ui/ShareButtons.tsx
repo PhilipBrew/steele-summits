@@ -108,7 +108,7 @@ export const ShareButtons = ({ url, title }: ShareButtonsProps) => {
         </IconButton>
         {copied && (
           <Text $variant="caption" $color="primary">
-            Link copied — paste it into your Instagram bio or story!
+            Link copied. Paste it into your Instagram bio or story.
           </Text>
         )}
       </Stack>

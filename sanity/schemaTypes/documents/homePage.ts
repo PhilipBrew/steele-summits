@@ -29,11 +29,6 @@ export const homePage = defineType({
       description: 'Falls back to an illustrated banner when left blank.',
     }),
     defineField({
-      name: 'offerEyebrow',
-      title: '"What we offer" eyebrow',
-      type: 'string',
-    }),
-    defineField({
       name: 'offerHeading',
       title: '"What we offer" heading',
       type: 'string',
@@ -45,18 +40,8 @@ export const homePage = defineType({
       rows: 2,
     }),
     defineField({
-      name: 'blogEyebrow',
-      title: '"From the blog" eyebrow',
-      type: 'string',
-    }),
-    defineField({
       name: 'blogHeading',
       title: '"From the blog" heading',
-      type: 'string',
-    }),
-    defineField({
-      name: 'testimonialsEyebrow',
-      title: 'Testimonials eyebrow',
       type: 'string',
     }),
     defineField({

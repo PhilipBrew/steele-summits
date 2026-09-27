@@ -34,8 +34,13 @@ const backgroundStyles = {
   `,
 };
 
+// Section padding was previously a flat 96px top and bottom at every
+// viewport, which was both unresponsive (96px is a lot of a phone screen)
+// and optically static. clamp() scales it with the viewport, and the bottom
+// runs slightly heavier than the top so a heading reads as belonging to the
+// content below it rather than floating between two equal voids.
 const Wrapper = styled.section<{ $background: SectionBackground }>`
-  padding-block: ${({ theme }) => theme.space[9]};
+  padding-block: clamp(3rem, 7vw, 5.5rem) clamp(3.5rem, 8vw, 6.5rem);
   scroll-margin-top: 96px;
   ${({ $background }) => backgroundStyles[$background]}
 `;
@@ -56,7 +61,7 @@ export const Section = ({
   return (
     <Wrapper id={id} $background={$background}>
       <Container>
-        <Stack $gap="8">
+        <Stack $gap="6">
           {(eyebrow || heading || intro) && (
             <Stack
               $gap="3"

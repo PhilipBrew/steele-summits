@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui';
-import { CardGrid, CTASection, Hero, Section } from '@/components/layout';
+import { AsymmetricGrid, CTASection, Hero, Section } from '@/components/layout';
+import { Reveal, Text } from '@/components/ui';
 import { BlogPostCard } from '@/components/cards';
 import {
   getBlogPosts,
@@ -48,11 +49,19 @@ const BlogPage = async () => {
       />
 
       <Section $background="default">
-        <CardGrid>
-          {blogPosts.map(post => (
-            <BlogPostCard key={post.slug} post={post} />
-          ))}
-        </CardGrid>
+        {blogPosts.length > 0 ? (
+          <AsymmetricGrid>
+            {blogPosts.map((post, index) => (
+              <Reveal key={post.slug} delay={index * 70}>
+                <BlogPostCard post={post} />
+              </Reveal>
+            ))}
+          </AsymmetricGrid>
+        ) : (
+          <Text $variant="bodyLg" $color="muted">
+            No posts yet. Notes from recent days on the hill will appear here.
+          </Text>
+        )}
       </Section>
 
       <CTASection

@@ -50,7 +50,6 @@ const AboutPage = async () => {
 
       <Section $background="elevated">
         <SplitContent
-          eyebrow={aboutPage?.approachEyebrow}
           heading={
             aboutPage?.approachHeading ??
             'Qualified, and built around the group'
@@ -74,7 +73,6 @@ const AboutPage = async () => {
 
       <Section
         $background="elevated"
-        eyebrow={aboutPage?.whyEyebrow}
         heading={aboutPage?.whyHeading}
         intro={aboutPage?.whyIntro}
         align="center"
@@ -89,7 +87,7 @@ const AboutPage = async () => {
         body={
           aboutPage?.ctaBody ??
           siteSettings?.ctaBody ??
-          'Get in touch to talk through a route, a session, or a multi-day trip — no obligation, no hard sell.'
+          'Get in touch to talk through a route, a session, or a multi-day trip. No obligation, no hard sell.'
         }
         actions={
           <Link href="/contact">

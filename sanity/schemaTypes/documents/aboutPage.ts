@@ -29,11 +29,6 @@ export const aboutPage = defineType({
       description: 'Falls back to an illustrated banner when left blank.',
     }),
     defineField({
-      name: 'approachEyebrow',
-      title: '"Our approach" eyebrow',
-      type: 'string',
-    }),
-    defineField({
       name: 'approachHeading',
       title: '"Our approach" heading',
       type: 'string',
@@ -47,11 +42,6 @@ export const aboutPage = defineType({
       name: 'approachImage',
       title: '"Our approach" image',
       type: 'imageWithAlt',
-    }),
-    defineField({
-      name: 'whyEyebrow',
-      title: '"Why it matters" eyebrow',
-      type: 'string',
     }),
     defineField({
       name: 'whyHeading',

@@ -80,8 +80,25 @@ export const Button = styled.button<ButtonProps>`
   transition:
     background 0.15s ease,
     box-shadow 0.15s ease,
-    color 0.15s ease;
+    color 0.15s ease,
+    transform 0.12s ease;
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
+
+  /* Physical press feedback. Kept small: this is a calm brand, not a toy. */
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition:
+      background 0.15s ease,
+      box-shadow 0.15s ease,
+      color 0.15s ease;
+
+    &:active:not(:disabled) {
+      transform: none;
+    }
+  }
 
   ${({ $size = 'md' }) => sizeStyles[$size]}
   ${({ $variant = 'primary' }) => variantStyles[$variant]}

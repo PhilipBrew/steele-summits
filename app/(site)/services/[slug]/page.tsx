@@ -3,11 +3,17 @@ import { notFound } from 'next/navigation';
 import {
   Breadcrumbs,
   CardMedia,
+  Reveal,
   ShareButtons,
   Stack,
   Text,
 } from '@/components/ui';
-import { CardGrid, Section, TwoColumnGrid } from '@/components/layout';
+import {
+  SecondaryRow,
+  Section,
+  StaggeredGrid,
+  TwoColumnGrid,
+} from '@/components/layout';
 import { BlogPostCard, TestimonialCard } from '@/components/cards';
 import { PortableTextRenderer } from '@/components/portable-text/PortableTextRenderer';
 import { ContactForm } from '@/app/(site)/contact/ContactForm';
@@ -109,34 +115,30 @@ const ServicePage = async ({ params }: ServicePageProps) => {
       </Section>
 
       {relatedBlogPosts.length > 0 && (
-        <Section
-          $background="contrast"
-          eyebrow="From the blog"
-          heading="Related reading"
-        >
-          <CardGrid>
-            {relatedBlogPosts.map(post => (
-              <BlogPostCard key={post.slug} post={post} />
+        <Section $background="contrast" heading="Related reading">
+          <SecondaryRow>
+            {relatedBlogPosts.map((post, index) => (
+              <Reveal key={post.slug} delay={index * 70}>
+                <BlogPostCard post={post} />
+              </Reveal>
             ))}
-          </CardGrid>
+          </SecondaryRow>
         </Section>
       )}
 
       {relatedTestimonials.length > 0 && (
         <Section
-          $background="accent"
-          eyebrow={siteSettings?.testimonialsEyebrow ?? 'Words from walkers'}
+          $background="contrast"
           heading={siteSettings?.testimonialsHeading ?? 'What people say'}
           align="center"
         >
-          <CardGrid>
-            {relatedTestimonials.map(testimonial => (
-              <TestimonialCard
-                key={testimonial._id}
-                testimonial={testimonial}
-              />
+          <StaggeredGrid>
+            {relatedTestimonials.map((testimonial, index) => (
+              <Reveal key={testimonial._id} delay={index * 70}>
+                <TestimonialCard testimonial={testimonial} />
+              </Reveal>
             ))}
-          </CardGrid>
+          </StaggeredGrid>
         </Section>
       )}
     </>
