@@ -27,6 +27,31 @@ const Blockquote = styled(Text).attrs({
   font-style: italic;
 `;
 
+// Rich-text links from the WYSIWYG editor otherwise inherit the global
+// `a { color: inherit; text-decoration: none }` reset and read as plain
+// text — style them so they're recognisable as links inline with prose.
+const RichTextLink = styled(Link)`
+  color: ${({ theme }) => theme.colors.primary};
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-color: ${({ theme }) => theme.colors.primaryLight};
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: ${({ theme }) => theme.colors.primaryDark};
+    text-decoration-color: currentColor;
+  }
+`;
+
+// SITE_URL mirrors the pattern used across the app (e.g. lib/sanity/seo.ts)
+// rather than a shared constant — kept local since this is the only place
+// editor-authored links need to be classified as internal vs external.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+
 // Custom component map is the extension point for future custom blocks
 // (galleries, callouts, etc.) without a content-model migration.
 const components: PortableTextComponents = {
@@ -74,9 +99,25 @@ const components: PortableTextComponents = {
     ),
   },
   marks: {
-    link: ({ value, children }) => (
-      <Link href={value?.href ?? '#'}>{children}</Link>
-    ),
+    link: ({ value, children }) => {
+      const href = value?.href ?? '#';
+      // mailto: links and links back to this site open in the same tab;
+      // other external links open in a new tab, matching how outbound
+      // links elsewhere on the site (header, footer, share buttons) behave.
+      const isExternal =
+        /^https?:\/\//i.test(href) && !href.startsWith(SITE_URL);
+
+      return (
+        <RichTextLink
+          href={href}
+          {...(isExternal
+            ? { target: '_blank', rel: 'noopener noreferrer' }
+            : {})}
+        >
+          {children}
+        </RichTextLink>
+      );
+    },
   },
   types: {
     imageWithAlt: ({ value }: { value: SanityImageWithAlt }) => (
