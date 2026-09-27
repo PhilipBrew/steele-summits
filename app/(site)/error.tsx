@@ -2,7 +2,11 @@
 
 import { useEffect } from 'react';
 import { Button, Stack, Text } from '@/components/ui';
-import { Section } from '@/components/layout';
+// Imported directly rather than from the '@/components/layout' barrel:
+// that barrel also re-exports SiteChrome, a Server Component that (via
+// lib/sanity/fetchers) now reaches next/headers for Draft Mode — going
+// through the barrel would pull that into this Client Component's bundle.
+import { Section } from '@/components/layout/Section';
 
 interface SiteErrorProps {
   error: Error & { digest?: string };

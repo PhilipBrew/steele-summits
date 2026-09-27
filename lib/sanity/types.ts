@@ -4,6 +4,18 @@ export interface SanityImageWithAlt extends Image {
   alt?: string;
 }
 
+// Shape produced by the @sanity/table Studio plugin (registered in
+// sanity.config.ts, used as a blockContent array member). Cells are plain
+// text only — the plugin doesn't support rich text or merged cells.
+export interface SanityTableRow {
+  _key: string;
+  cells: string[];
+}
+
+export interface SanityTable {
+  rows?: SanityTableRow[];
+}
+
 export interface SanitySeo {
   metaTitle?: string;
   metaDescription?: string;

@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { SkipLink } from '@/components/ui';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { PreviewBanner } from './PreviewBanner';
 import { getSiteSettings } from '@/lib/sanity/fetchers';
 
 const FALLBACK_NAV_LINKS = [
@@ -20,6 +21,7 @@ export const SiteChrome = async ({ children }: { children: ReactNode }) => {
   return (
     <>
       <SkipLink href="#main-content">Skip to content</SkipLink>
+      <PreviewBanner />
       <Header
         siteName={siteSettings?.siteName ?? 'Steele Summit'}
         navLinks={siteSettings?.navLinks ?? FALLBACK_NAV_LINKS}

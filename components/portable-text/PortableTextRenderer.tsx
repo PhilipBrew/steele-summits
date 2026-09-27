@@ -6,7 +6,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import { Text, SanityImage } from '@/components/ui';
-import type { SanityImageWithAlt } from '@/lib/sanity/types';
+import type { SanityImageWithAlt, SanityTable } from '@/lib/sanity/types';
 
 const List = styled.ul`
   margin: 0.75em 0;
@@ -51,6 +51,49 @@ const RichTextLink = styled(Link)`
 // rather than a shared constant — kept local since this is the only place
 // editor-authored links need to be classified as internal vs external.
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+
+// Horizontal-scroll wrapper so a wide table doesn't blow out the layout on
+// narrow viewports — the table itself is never squeezed or wrapped.
+const TableScroll = styled.div`
+  margin: 1.5em 0;
+  overflow-x: auto;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.md};
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+
+  th,
+  td {
+    padding: ${({ theme }) => theme.space[3]} ${({ theme }) => theme.space[4]};
+    text-align: left;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+    white-space: nowrap;
+  }
+
+  thead th {
+    background: ${({ theme }) => theme.colors.surfaceElevated};
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  // Zebra striping and a hover highlight both use a translucent tint of
+  // ink rather than a fixed background colour, so they read correctly
+  // regardless of which Section background the table is placed on.
+  tbody tr:nth-child(even) {
+    background: rgba(34, 38, 31, 0.03);
+  }
+
+  tbody tr:hover {
+    background: rgba(34, 38, 31, 0.06);
+  }
+`;
 
 // Custom component map is the extension point for future custom blocks
 // (galleries, callouts, etc.) without a content-model migration.
@@ -128,6 +171,35 @@ const components: PortableTextComponents = {
         style={{ width: '100%', height: 'auto' }}
       />
     ),
+    table: ({ value }: { value: SanityTable }) => {
+      const [headerRow, ...bodyRows] = value.rows ?? [];
+      if (!headerRow) return null;
+
+      return (
+        <TableScroll>
+          <Table>
+            <thead>
+              <tr>
+                {headerRow.cells.map((cell, index) => (
+                  <th key={index} scope="col">
+                    {cell}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {bodyRows.map(row => (
+                <tr key={row._key}>
+                  {row.cells.map((cell, index) => (
+                    <td key={index}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableScroll>
+      );
+    },
   },
 };
 

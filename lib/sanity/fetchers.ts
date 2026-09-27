@@ -1,4 +1,4 @@
-import { client } from '@/lib/sanity/client';
+import { client, getSanityClient } from '@/lib/sanity/client';
 import { TAGS } from '@/lib/sanity/tags';
 import type {
   Service,
@@ -33,109 +33,151 @@ import {
 
 const REVALIDATE_SECONDS = 3600;
 
-export const getServices = () =>
-  client.fetch<Service[]>(
+// Cache options for a fetch: normally tagged + time-revalidated so
+// on-demand revalidation (see app/api/revalidate) and ISR both work: in
+// Draft Mode, uncached so an editor always sees the latest draft — Draft
+// Mode already forces the page itself to render dynamically, this just
+// makes sure the underlying fetch doesn't serve a stale cached response.
+const fetchOptions = (
+  preview: boolean,
+  tag: string,
+): { cache: 'no-store' } | { next: { tags: string[]; revalidate: number } } =>
+  preview
+    ? { cache: 'no-store' }
+    : { next: { tags: [tag], revalidate: REVALIDATE_SECONDS } };
+
+export const getServices = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<Service[]>(
     servicesQuery,
     {},
-    { next: { tags: [TAGS.service], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.service),
   );
+};
 
+// Deliberately always the plain published client, never getSanityClient():
+// this feeds generateStaticParams (build time, no request/cookie context —
+// calling draftMode() there throws) and the sitemap, neither of which
+// should include unpublished slugs anyway.
 export const getServiceSlugs = () =>
   client.fetch<string[]>(
     serviceSlugsQuery,
     {},
-    { next: { tags: [TAGS.service], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(false, TAGS.service),
   );
 
-export const getServiceBySlug = (slug: string) =>
-  client.fetch<Service | null>(
+export const getServiceBySlug = async (slug: string) => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<Service | null>(
     serviceBySlugQuery,
     { slug },
-    { next: { tags: [TAGS.service], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.service),
   );
+};
 
-export const getBlogPosts = () =>
-  client.fetch<BlogPost[]>(
+export const getBlogPosts = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<BlogPost[]>(
     blogPostsQuery,
     {},
-    { next: { tags: [TAGS.blogPost], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.blogPost),
   );
+};
 
+// See getServiceSlugs above — same reasoning applies here.
 export const getBlogPostSlugs = () =>
   client.fetch<string[]>(
     blogPostSlugsQuery,
     {},
-    { next: { tags: [TAGS.blogPost], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(false, TAGS.blogPost),
   );
 
-export const getBlogPostBySlug = (slug: string) =>
-  client.fetch<BlogPost | null>(
+export const getBlogPostBySlug = async (slug: string) => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<BlogPost | null>(
     blogPostBySlugQuery,
     { slug },
-    { next: { tags: [TAGS.blogPost], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.blogPost),
   );
+};
 
-export const getTestimonials = () =>
-  client.fetch<Testimonial[]>(
+export const getTestimonials = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<Testimonial[]>(
     testimonialsQuery,
     {},
-    { next: { tags: [TAGS.testimonial], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.testimonial),
   );
+};
 
-export const getHomePage = () =>
-  client.fetch<HomePage | null>(
+export const getHomePage = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<HomePage | null>(
     homePageQuery,
     {},
-    { next: { tags: [TAGS.homePage], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.homePage),
   );
+};
 
-export const getAboutPage = () =>
-  client.fetch<AboutPage | null>(
+export const getAboutPage = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<AboutPage | null>(
     aboutPageQuery,
     {},
-    { next: { tags: [TAGS.aboutPage], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.aboutPage),
   );
+};
 
-export const getServicesPage = () =>
-  client.fetch<ServicesPage | null>(
+export const getServicesPage = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<ServicesPage | null>(
     servicesPageQuery,
     {},
-    { next: { tags: [TAGS.servicesPage], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.servicesPage),
   );
+};
 
-export const getBlogPage = () =>
-  client.fetch<BlogPage | null>(
+export const getBlogPage = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<BlogPage | null>(
     blogPageQuery,
     {},
-    { next: { tags: [TAGS.blogPage], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.blogPage),
   );
+};
 
-export const getContactPage = () =>
-  client.fetch<ContactPage | null>(
+export const getContactPage = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<ContactPage | null>(
     contactPageQuery,
     {},
-    { next: { tags: [TAGS.contactPage], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.contactPage),
   );
+};
 
-export const getPrivacyPolicyPage = () =>
-  client.fetch<PrivacyPolicyPage | null>(
+export const getPrivacyPolicyPage = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<PrivacyPolicyPage | null>(
     privacyPolicyPageQuery,
     {},
-    {
-      next: { tags: [TAGS.privacyPolicyPage], revalidate: REVALIDATE_SECONDS },
-    },
+    fetchOptions(preview, TAGS.privacyPolicyPage),
   );
+};
 
-export const getTermsPage = () =>
-  client.fetch<TermsPage | null>(
+export const getTermsPage = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<TermsPage | null>(
     termsPageQuery,
     {},
-    { next: { tags: [TAGS.termsPage], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.termsPage),
   );
+};
 
-export const getSiteSettings = () =>
-  client.fetch<SiteSettings | null>(
+export const getSiteSettings = async () => {
+  const { client, preview } = await getSanityClient();
+  return client.fetch<SiteSettings | null>(
     siteSettingsQuery,
     {},
-    { next: { tags: [TAGS.siteSettings], revalidate: REVALIDATE_SECONDS } },
+    fetchOptions(preview, TAGS.siteSettings),
   );
+};

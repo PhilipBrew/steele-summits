@@ -44,5 +44,8 @@ export const blockContent = defineType({
       },
     }),
     defineArrayMember({ type: 'imageWithAlt' }),
+    // Registered globally by the `table()` plugin in sanity.config.ts.
+    // Cells are plain text only — no bold/links inside a cell.
+    defineArrayMember({ type: 'table' }),
   ],
 });

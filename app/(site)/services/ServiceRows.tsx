@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Button, CardMedia, Stack, Text } from '@/components/ui';
-import { SplitContent } from '@/components/layout';
+// Imported directly rather than from the '@/components/layout' barrel —
+// see the comment in app/(site)/error.tsx for why.
+import { SplitContent } from '@/components/layout/SplitContent';
 import type { Service } from '@/lib/sanity/types';
 
 const Row = styled.div`
